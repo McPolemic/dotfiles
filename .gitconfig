@@ -1,0 +1,34 @@
+[user]
+	name = Adam Lukens
+	email = alukens@purduefed.com
+
+[credential]
+helper = /opt/boxen/bin/boxen-git-credential
+
+[core]
+excludesfile = /opt/boxen/config/git/gitignore
+
+[hub]
+protocol = https
+
+[push]
+default = matching
+
+[diff]
+	tool = vimdiff
+
+[difftool]
+prompt = false
+
+[alias]
+d = difftool
+dt = difftool
+c = commit
+co = checkout
+st = status -sb
+s = status
+lv = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short
+lf = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short --numstat
+
+[mergetool]
+	keepBackup = true

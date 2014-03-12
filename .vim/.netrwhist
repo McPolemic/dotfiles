@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/Users/adam/src/utilities'
+let g:netrw_dirhist_2='/Users/adam/src/experiments/sinatra-gallery/lib/sinatra'
+let g:netrw_dirhist_3='/Users/adam/src/experiments/sinatra-gallery/lib/sinatra/gallery'
+let g:netrw_dirhist_4='/Users/adam/src/experiments/sinatra-gallery/lib/sinatra'
+let g:netrw_dirhist_5='/Users/adam/src/dotfiles/.vim/vim-pathogen'
+let g:netrw_dirhist_6='/Users/adam/src/dotfiles/.vim/vim-pathogen/autoload'

@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+require 'rushover'
+
+$APP_TOKEN  = ENV['PUSHOVER_TERMINAL_APP_TOKEN']
+$USER_TOKEN = ENV['PUSHOVER_USER_TOKEN']
+
+def get_message
+  return ARGV[0] if ARGV.count == 1
+  ARGV.join(" ")
+end
+
+client = Rushover::Client.new($APP_TOKEN)
+client.notify($USER_TOKEN, get_message, :title => "Terminal Notifier")
