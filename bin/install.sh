@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-git clone git@github.com:McPolemic/dotfiles.git
+git clone https://github.com/McPolemic/dotfiles.git
 cd dotfiles
 
 # Set globs to show dotfiles
