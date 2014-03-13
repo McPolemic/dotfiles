@@ -23,6 +23,7 @@ prompt = false
 [alias]
 d = difftool
 dt = difftool
+dc = diff --cached
 c = commit
 co = checkout
 st = status -sb
