@@ -17,7 +17,10 @@ source /opt/boxen/rbenv/versions/2.0.0-p0/lib/ruby/gems/2.0.0/gems/tmuxinator-0.
 source ~/bin/git-completion.bash
 
 #API keys, etc
-source ~/.bashrc_private
+if [ -e "~/.bashrc_private" ]
+then
+    source ~/.bashrc_private
+fi
 
 function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
