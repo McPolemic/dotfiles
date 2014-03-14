@@ -5,24 +5,26 @@ call pathogen#incubate()
 "Set color to koehler
 colo koehler
 
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
 syntax on
+
+" Enable file type detection.
+" Use the default filetype settings, so that mail gets 'tw' set to 72,
+" 'cindent' is on in C files, etc.
+" Also load indent files, to automatically do language-dependent indenting.
+filetype plugin indent on
 
 " ,cd to cd to current working directory
 map ,cd :cd %:p:h<CR>
 
 " Set indentation
-set softtabstop=4
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-set backspace=2
+"for ruby, autoindent with two spaces, always expand tabs
+autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+autocmd FileType python set sw=4 sts=4 et
 
 set hlsearch
 set incsearch
-
-" Change indentation for Ruby
-autocmd FileType ruby set tabstop=2|set shiftwidth=2|set softtabstop=2
 
 noremap <Space> <PageDown>
 
