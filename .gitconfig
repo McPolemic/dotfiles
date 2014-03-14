@@ -21,6 +21,7 @@ default = matching
 prompt = false
 
 [alias]
+aa = add --all
 d = difftool
 dt = difftool
 dc = diff --cached
