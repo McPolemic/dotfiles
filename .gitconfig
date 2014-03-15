@@ -22,7 +22,7 @@ prompt = false
 
 [alias]
 aa = add --all
-d = difftool
+d = diff
 dt = difftool
 dc = diff --cached
 c = commit
