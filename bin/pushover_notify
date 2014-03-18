@@ -9,5 +9,7 @@ def get_message
   ARGV.join(" ")
 end
 
+puts "Usage: #{$0} 'message to send'" if ARGV.empty?
+
 client = Rushover::Client.new($APP_TOKEN)
 client.notify($USER_TOKEN, get_message, :title => "Terminal Notifier")
