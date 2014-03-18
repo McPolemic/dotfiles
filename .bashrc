@@ -20,7 +20,7 @@ fi
 source ~/bin/git-completion.bash
 
 #API keys, etc
-if [ -e "~/.bashrc_private" ]
+if [ -e ~/.bashrc_private ]
 then
     source ~/.bashrc_private
 fi
