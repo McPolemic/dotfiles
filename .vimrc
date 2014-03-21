@@ -26,6 +26,9 @@ autocmd FileType python set sw=4 sts=4 et
 set hlsearch
 set incsearch
 
+" Line numbers
+set number
+
 noremap <Space> <PageDown>
 
 let mapleader=","
