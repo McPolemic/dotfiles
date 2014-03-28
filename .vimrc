@@ -26,6 +26,9 @@ autocmd FileType python set sw=4 sts=4 et
 set hlsearch
 set incsearch
 
+" clear search highlighting with <leader>Enter
+noremap <silent><leader><cr> :noh<cr> 
+
 " Line numbers
 set number
 
