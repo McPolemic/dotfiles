@@ -29,3 +29,6 @@ function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
 #Docker/Boot2Docker
 export DOCKER_HOST=tcp://
+
+# Much larger history
+HISTFILESIZE=1000000
