@@ -26,6 +26,8 @@ then
 fi
 
 function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
+function vp() { vim $(find . -name '*.rb' -o -name '*.py' -o -name '*.java' -o -name '*.go' | selecta); }
+function branchp() { git checkout $(git branch -l | selecta | cut -d ' ' -f 2); }
 
 #Docker/Boot2Docker
 export DOCKER_HOST=tcp://
