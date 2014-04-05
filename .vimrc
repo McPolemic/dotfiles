@@ -15,9 +15,6 @@ syntax on
 " Also load indent files, to automatically do language-dependent indenting.
 filetype plugin indent on
 
-" ,cd to cd to current working directory
-map ,cd :cd %:p:h<CR>
-
 " Set indentation
 "for ruby, autoindent with two spaces, always expand tabs
 autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
@@ -28,10 +25,16 @@ set incsearch
 
 " Line numbers
 set number
+" Easy insert string for escape
+inoremap jk <esc>
 
 noremap <Space> <PageDown>
 
 let mapleader=","
+
+" ,cd to cd to current working directory
+noremap <leader>cd :cd %:p:h<CR>
+
 set grepprg=ack\ -k
 
 " Ctrl-P Options
