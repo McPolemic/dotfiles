@@ -84,12 +84,12 @@ if has('statusline')
     " #%n       buffer number
     " %l/%L,%c%V    line number, total number of lines, and column number
     function SetStatusLineStyle()
-    if &stl == '' || &stl =~ 'synID'
-        let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]}%{'~'[&pm=='']}%=#%n %l/%L,%c%V "
-    else
-        let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]} (%{synIDattr(synID(line('.'),col('.'),0),'name')})%=#%n %l/%L,%c%V "
-    endif
-    endfunc
+        if &stl == '' || &stl =~ 'synID'
+            let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]}%{'~'[&pm=='']}%=#%n %l/%L,%c%V "
+        else
+	    let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]} (%{synIDattr(synID(line('.'),col('.'),0),'name')})%=#%n %l/%L,%c%V "
+        endif
+    endfunction
     " Switch between the normal and vim-debug modes in the status line
     nmap _ds :call SetStatusLineStyle()<CR>
     call SetStatusLineStyle()
