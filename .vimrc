@@ -34,6 +34,8 @@ let mapleader=","
 
 " ,cd to cd to current working directory
 noremap <leader>cd :cd %:p:h<CR>
+" Clear search higlighting
+noremap <leader><CR> :nohlsearch<CR>
 
 set grepprg=ack\ -k
 
