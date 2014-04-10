@@ -23,6 +23,10 @@ autocmd FileType python set sw=4 sts=4 et
 set hlsearch
 set incsearch
 
+" N lines of context around the cursor
+set scrolloff=7
+set sidescrolloff=10
+
 " Line numbers
 set number
 " Easy insert string for escape
