@@ -1,6 +1,6 @@
 "Load Pathogen
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#incubate()
+call pathogen#infect('bundle/{}')
 
 "Set color to koehler
 colo koehler
