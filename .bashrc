@@ -33,8 +33,5 @@ function vp() { vim $(find . -name '*.rb' \
 			  -o -name '*.go' | selecta); }
 function branchp() { git checkout $(git branch -l | selecta | cut -d ' ' -f 2); }
 
-#Docker/Boot2Docker
-export DOCKER_HOST=tcp://
-
 # Much larger history
 HISTFILESIZE=1000000
