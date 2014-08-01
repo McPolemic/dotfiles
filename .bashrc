@@ -28,7 +28,7 @@ function vp() { vim $(find . -name '*.rb' \
 	                  -o -name '*.py' \
 			  -o -name '*.java' \
 			  -o -name '*.go' | selecta); }
-function branchp() { git checkout $(git branch | tr '*' '1' | sort -V | cut -c 3- | selecta); }
+function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3- | selecta); }
 
 # Much larger history
 HISTFILESIZE=1000000
