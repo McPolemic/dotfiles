@@ -32,3 +32,31 @@ function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3
 
 # Much larger history
 HISTFILESIZE=1000000
+
+# Have `cd` keep track of history by using `pushd`
+pushd()
+{
+	if [ $# -eq 0 ]; then
+		DIR="${HOME}"
+	else
+		DIR="$1"
+	fi
+
+	builtin pushd "${DIR}" > /dev/null
+}
+
+pushd_builtin()
+{
+	builtin pushd > /dev/null
+	echo -n "DIRSTACK: "
+	dirs
+}
+
+popd()
+{
+	builtin popd > /dev/null
+}
+
+alias cd='pushd'
+alias back='popd'
+alias flip='pushd_builtin'
