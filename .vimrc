@@ -155,3 +155,5 @@ endfunction
 
 nnoremap <leader>f :call SelectaFile(".")<cr>
 nnoremap <leader>b :call SelectaBuffer()<cr>
+" Run tests
+nnoremap <leader>t :w\|:!bundle exec rspec<cr>
