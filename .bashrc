@@ -24,6 +24,7 @@ fi
 
 function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
 function vp() { vim $(find . -name '*.rb' \
+	                  -o -name '*.gemspec' \
 	                  -o -name '*.erb' \
 	                  -o -name '*.py' \
 			  -o -name '*.java' \
