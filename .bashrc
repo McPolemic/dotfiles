@@ -8,7 +8,7 @@ then
 	export VIMRUNTIME=/usr/share/vim/vim73
 elif [[ -d "/usr/share/vim/vim74/" ]]
 then
-	export VIMRUNTIME=/usr/share/vim/vim73
+	export VIMRUNTIME=/usr/share/vim/vim74
 fi
 
 alias v="f -e vim"
