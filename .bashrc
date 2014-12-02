@@ -3,7 +3,13 @@ export PATH=/usr/local/bin:/usr/local/sbin:~/bin:$PATH
 export EDITOR=vim
 
 # Set Vim runtime for Neovim
-export VIMRUNTIME=/usr/share/vim/vim73
+if [[ -d "/usr/share/vim/vim73/" ]]
+then
+	export VIMRUNTIME=/usr/share/vim/vim73
+elif [[ -d "/usr/share/vim/vim74/" ]]
+then
+	export VIMRUNTIME=/usr/share/vim/vim73
+fi
 
 alias v="f -e vim"
 alias be="bundle exec"
