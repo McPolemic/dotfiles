@@ -1,9 +1,19 @@
 export PS1='\h:\W \u$ '
 export PATH=/usr/local/bin:/usr/local/sbin:~/bin:$PATH
 export EDITOR=vim
+
+# Set Vim runtime for Neovim
+export VIMRUNTIME=/usr/share/vim/vim73
+
 alias v="f -e vim"
 alias be="bundle exec"
 alias bi="bundle install"
+
+# Use Neovim if available
+if [[ -x "/opt/boxen/homebrew/bin/nvim" ]]
+then
+	alias vim=nvim
+fi
 
 eval "$(fasd --init auto)"
 
