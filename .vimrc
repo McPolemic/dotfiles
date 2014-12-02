@@ -2,8 +2,9 @@
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect('bundle/{}')
 
-"Set color to koehler
-colo koehler
+"Set default colorscheme
+colo molokai
+"colo koehler
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
