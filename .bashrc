@@ -1,5 +1,6 @@
 export PS1='\h:\W \u$ '
 export PATH=/usr/local/bin:/usr/local/sbin:~/bin:$PATH
+export PATH=$PATH:/opt/boxen/homebrew/share/pypy
 export EDITOR=vim
 
 # Set Vim runtime for Neovim
