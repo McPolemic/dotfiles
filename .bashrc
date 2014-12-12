@@ -47,6 +47,7 @@ function vp() { vim $(find . -name '*.rb' \
 			  -o -name '*.java' \
 			  -o -name '*.xml' \
 			  -o -name '*.clj' \
+			  -o -name '*.sh' \
 			  -o -name '*.go' | selecta); }
 function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3- | selecta); }
 
