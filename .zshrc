@@ -105,9 +105,7 @@ eval "$(fasd --init auto)"
 export GOPATH=~/src/go
 
 # Load rbenv if it's installed
-if hash foo 2>/dev/null; then
-  eval "$(rbenv init -)"
-fi
+eval "$(rbenv init -)"
 
 #API keys, etc
 if [ -e ~/.bashrc_private ]
@@ -127,4 +125,3 @@ function vp() { vim $(find . -name '*.rb' \
 			  -o -name '*.js' \
 			  -o -name '*.go' | selecta); }
 function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3- | selecta); }
-
