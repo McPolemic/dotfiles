@@ -45,19 +45,19 @@ noremap <leader><CR> :nohlsearch<CR>
 set grepprg=ack\ -k
 
 " Ctrl-P Options
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+"set runtimepath^=~/.vim/bundle/ctrlp.vim
+"set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+"set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
 " Ctrl-P Bindings
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
 
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(exe|so|dll|pyc|class)$',
-    \ 'link': 'some_bad_symbolic_links',
-    \ }
+"let g:ctrlp_custom_ignore = {
+    "\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    "\ 'file': '\v\.(exe|so|dll|pyc|class)$',
+    "\ 'link': 'some_bad_symbolic_links',
+    "\ }
 
 " Split sanity http://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
 set splitbelow
