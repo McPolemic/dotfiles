@@ -7,6 +7,8 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="robbyrussell"
 
+# Just update each time rather than asking.
+DISABLE_UPDATE_PROMPT="true"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -125,3 +127,6 @@ function vp() { vim $(find . -name '*.rb' \
 			  -o -name '*.js' \
 			  -o -name '*.go' | selecta); }
 function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3- | selecta); }
+function proj() { cd $(find ~/src ~/src/experiments -maxdepth 1 -type d | selecta); }
+
+export JAVA_HOME=$(/usr/libexec/java_home)
