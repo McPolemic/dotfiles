@@ -30,4 +30,4 @@
 	url = git://github.com/tpope/vim-dispatch.git
 [submodule ".vim/bundle/vim-niji"]
 	path = .vim/bundle/vim-niji
-	url = git@github.com:losingkeys/vim-niji.git
+	url = git://github.com/losingkeys/vim-niji.git
