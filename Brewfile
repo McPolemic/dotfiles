@@ -76,4 +76,5 @@ cask "ynab"
 cask "sonos"
 cask "microsoft-office"
 cask "caskroom/versions/sublime-text3"
+cask "omnifocus"
 
