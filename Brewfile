@@ -73,4 +73,5 @@ cask "slack"
 cask "textexpander"
 cask "1password"
 cask "ynab"
+cask "sonos"
 
