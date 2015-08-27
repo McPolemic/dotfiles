@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-git clone --recursive https://github.com/McPolemic/dotfiles.git
+git clone --recursive git@github.com:McPolemic/dotfiles.git
 cd dotfiles
 
 # Set globs to show dotfiles
