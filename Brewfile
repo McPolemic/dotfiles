@@ -74,4 +74,5 @@ cask "textexpander"
 cask "1password"
 cask "ynab"
 cask "sonos"
+cask "caskroom/versions/sublime-text3"
 
