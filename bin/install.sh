@@ -1,7 +1,11 @@
 #!/bin/sh
 set -e
 
-git clone --recursive git@github.com:McPolemic/dotfiles.git
+# Editable
+#git clone --recursive git@github.com:McPolemic/dotfiles.git
+
+# Read-only
+git clone --recursive https://github.com/McPolemic/dotfiles.git
 cd dotfiles
 
 # Set globs to show dotfiles
