@@ -53,12 +53,14 @@ brew "watch"
 brew "wget"
 brew "zeromq"
 
-## GUI Tools
+## Menubar Tools
 cask "alfred"
 cask "caffeine"
 cask "flux"
 cask "dropbox"
+cask "bartender"
 
+## GUI Tools
 cask "virtualbox"
 cask "vagrant"
 cask "vmware-fusion"
