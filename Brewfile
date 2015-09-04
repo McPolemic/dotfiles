@@ -79,4 +79,4 @@ cask "microsoft-office"
 cask "caskroom/versions/sublime-text3"
 cask "omnifocus"
 cask "transmit"
-
+cask "dash"
