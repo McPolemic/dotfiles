@@ -59,6 +59,7 @@ cask "caffeine"
 cask "flux"
 cask "dropbox"
 cask "bartender"
+cask "hazel"
 
 ## GUI Tools
 cask "virtualbox"
