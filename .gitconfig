@@ -28,3 +28,5 @@ lf = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green)
 
 [mergetool]
 	keepBackup = true
+[core]
+	excludesfile = /Users/adam/.gitignore
