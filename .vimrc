@@ -158,3 +158,6 @@ nnoremap <leader>f :call SelectaFile(".")<cr>
 nnoremap <leader>b :call SelectaBuffer()<cr>
 " Run tests
 nnoremap <leader>t :w\|:!bundle exec rspec<cr>
+
+"Set a minimum height for splits so you can see what's going on
+set winheight=15
