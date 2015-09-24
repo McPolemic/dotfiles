@@ -93,8 +93,12 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias v="f -e vim"
-alias be="bundle exec"
-alias bi="bundle install"
+alias be="noglob bundle exec"
+alias bi="noglob bundle install"
+
+# ZSH freaks out with rake arguments
+# http://mikeballou.com/blog/2011/07/18/zsh-and-rake-parameters/
+alias rake='noglob rake'
 
 # Use Neovim if available
 if [[ -x "/opt/boxen/homebrew/bin/nvim" ]]
