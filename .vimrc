@@ -161,7 +161,7 @@ nnoremap <leader>t :w\|:!bundle exec rspec<cr>
 
 " Set a session for the current directory and be able to reload it
 " http://stackoverflow.com/questions/1416572/vi-vim-restore-opened-files
-map <leader>2 :mksession ~/.vim_session<CR>
+map <leader>2 :mksession! ~/.vim_session<CR>
 map <leader>3 :source ~/.vim_session<CR>
 
 "Set a minimum height for splits so you can see what's going on
