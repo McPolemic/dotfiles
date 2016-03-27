@@ -139,3 +139,5 @@ then
 	export JAVA_HOME=$(/usr/libexec/java_home)
 fi
 
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
