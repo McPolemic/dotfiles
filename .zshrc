@@ -134,4 +134,8 @@ function vp() { vim $(find . -name '*.rb' \
 function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3- | selecta); }
 function proj() { cd $(find ~/src ~/src/experiments -maxdepth 1 -type d | selecta); }
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+if [ -e /usr/libexec/java_home ]
+then
+	export JAVA_HOME=$(/usr/libexec/java_home)
+fi
+
