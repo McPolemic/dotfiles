@@ -130,7 +130,10 @@ function vp() { vim $(find . -name '*.rb' \
 			  -o -name '*.sh' \
 			  -o -name '*.js' \
 			  -o -name '*.hbs' \
-			  -o -name '*.go' | selecta); }
+			  -o -name '*.go' |
+                      grep -v node_modules |
+		      grep -v bower_components |
+		      selecta); }
 function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3- | selecta); }
 function proj() { cd $(find ~/src ~/src/experiments -maxdepth 1 -type d | selecta); }
 
