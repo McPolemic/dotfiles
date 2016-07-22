@@ -4,12 +4,14 @@
 
 [hub]
 protocol = https
+	host = git.purduefed.com
 
 [push]
 default = matching
 
 [diff]
 	tool = vimdiff
+	compactionHeuristic = true
 
 [difftool]
 prompt = false
