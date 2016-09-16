@@ -3,12 +3,11 @@
 # Run `brew bundle` to brew the list below
 
 # Install Cask
-brew "caskroom/cask/brew-cask"
+tap 'caskroom/cask'
 
 ## CLI Tools
 brew "ack"
 brew "ansible"
-brew "brew-cask"
 brew "docker"
 brew "emacs"
 brew "fasd"
@@ -32,7 +31,7 @@ brew "selecta"
 brew "sloccount"
 brew "sqlite"
 brew "ssh-copy-id"
-#brew "sshpass"
+#SSHPass <- Used for Ansible
 brew "http://git.io/sshpass.rb"
 brew "the_silver_searcher"
 brew "tmux"
