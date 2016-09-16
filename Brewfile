@@ -39,6 +39,7 @@ brew "tree"
 brew "unrar"
 brew "watch"
 brew "wget"
+brew "mas"
 
 ## Menubar Tools
 cask "alfred"
@@ -66,3 +67,12 @@ cask "transmit"
 cask "dash"
 cask "fluid"
 cask "postman"
+
+# Mac App Store
+mas "Tweetbot", id: 557168941
+mas "1Password", id: 443987910
+mas "Shush", id: 496437906
+mas "Divvy", id: 413857545
+mas "GrandPerspective", id: 1111570163
+mas "Pixelmator", id: 407963104
+mas "Numbers", id: 409203825
