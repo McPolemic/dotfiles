@@ -1,3 +1,4 @@
 .bashrc_private
 *.swp
 *.swo
+.byebug_history
