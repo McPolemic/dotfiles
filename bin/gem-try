@@ -1,0 +1,19 @@
+#!/bin/bash
+export BUNDLE_GEMFILE=$(mktemp)
+cat > $BUNDLE_GEMFILE <<EOF
+begin
+  eval(File.read("Gemfile"))
+rescue Errno::ENOENT
+  source 'https://rubygems.org'
+end
+
+gem 'pry'
+gem 'pry-coolline'
+gem '$1'
+EOF
+
+bundle install
+bundle exec pry -r "$1"
+
+rm $BUNDLE_GEMFILE
+rm $BUNDLE_GEMFILE.lock
