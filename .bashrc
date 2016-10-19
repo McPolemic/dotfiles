@@ -26,9 +26,11 @@ eval "$(fasd --init auto)"
 export GOPATH=~/src/go
 
 # Load rbenv if it's installed
-if hash foo 2>/dev/null; then
-  eval "$(rbenv init -)"
-fi
+eval "$(rbenv init -)"
+
+# Load Nodenv
+export PATH="$HOME/.nodenv/bin:$PATH"
+eval "$(nodenv init -)"
 
 source ~/bin/git-completion.bash
 
