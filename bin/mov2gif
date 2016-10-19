@@ -1,2 +1,0 @@
-#!/bin/sh
-ffmpeg -i "$1" -r 10 -f gif "$2"
