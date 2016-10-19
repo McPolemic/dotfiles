@@ -135,6 +135,7 @@ function vp() { vim $(find . -name '*.rb' \
 		      grep -v bower_components |
 		      selecta); }
 function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3- | selecta); }
+function isodate() { date +%Y-%m-%d }
 function proj() { cd $(find ~/src ~/src/experiments -maxdepth 1 -type d | selecta); }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
