@@ -8,7 +8,6 @@ rescue Errno::ENOENT
 end
 
 gem 'pry'
-gem 'pry-coolline'
 gem '$1'
 EOF
 
