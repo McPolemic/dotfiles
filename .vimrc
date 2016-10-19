@@ -110,19 +110,27 @@ endif
 :highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 :match ExtraWhitespace /\s\+$\| \+\ze\t/
 
+" Run a given vim command on the results of fuzzy selecting from a given shell
+" command. See usage below.
+function! SelectaCommand(choice_command, selecta_args, vim_command)
+  try
+    let selection = system(a:choice_command . " | selecta " .  a:selecta_args)
+  catch /Vim:Interrupt/
+    " Swallow the ^C so that the redraw below happens; otherwise there will be
+    " leftovers from selecta on the screen
+    redraw!
+    return
+  endtry
+  redraw!
+  exec a:vim_command . " " . selection
+endfunction
+
+" Find all files in all non-dot directories starting in the working directory.
+" Fuzzy select one of those. Open the selected file with :e.
+nnoremap <leader>f :call SelectaCommand("find * -type f", "", ":e")<cr>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Selecta Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Ignore JS certain paths
-let g:SelectaIgnore = ["node_modules/", "bower_components/", "tmp/"]
-
-nnoremap <leader>f :SelectaFile<cr>
-
-" As above, but will open in a :split
-nnoremap <leader>s :SelectaSplit<cr>
-
-" " As above, but will open in a :vsplit
-nnoremap <leader>v :SelectaVsplit<cr>
 
 " Find all buffers that have been opened.
 " Fuzzy select one of those. Open the selected file with :b.
