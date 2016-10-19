@@ -1,4 +1,11 @@
 #!/bin/bash
+
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 gem1 [gem2...]"
+  echo "  Installs and imports all named gems into pry"
+  exit 1
+fi
+
 export BUNDLE_GEMFILE=$(mktemp)
 cat > $BUNDLE_GEMFILE <<EOF
 begin
@@ -8,8 +15,12 @@ rescue Errno::ENOENT
 end
 
 gem 'pry'
-gem '$1'
 EOF
+
+# Install the specified gems
+for GEM in $*; do
+  echo "gem '$GEM'" >> $BUNDLE_GEMFILE
+done
 
 bundle install
 bundle exec pry -r "$1"
