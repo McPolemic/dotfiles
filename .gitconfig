@@ -2,10 +2,6 @@
 	name = Adam Lukens
 	email = adam@testdouble.com
 
-[hub]
-protocol = https
-	host = git.purduefed.com
-
 [push]
 default = matching
 
