@@ -41,6 +41,8 @@ let mapleader=","
 noremap <leader>cd :cd %:p:h<CR>
 " Clear search higlighting
 noremap <leader><CR> :nohlsearch<CR>
+" Paste yanked line over current line
+noremap <leader>p pkdd
 
 set grepprg=ack\ -k
 
@@ -238,3 +240,6 @@ map <leader>3 :source ~/.vim_session<CR>
 
 "Set a minimum height for splits so you can see what's going on
 set winheight=15
+
+" Enable 256 color
+set t_Co=256
