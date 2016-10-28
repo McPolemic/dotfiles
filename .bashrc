@@ -21,6 +21,9 @@ then
 	alias vim=nvim
 fi
 
+# Disable XON/XOFF (Ctrl-S/Ctrl-Q) for interactive shells
+[[ $- == *i* ]] && stty -ixon
+
 eval "$(fasd --init auto)"
 
 export GOPATH=~/src/go
