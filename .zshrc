@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+source ~/.common_profile.sh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -53,22 +54,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/local/sbin:$HOME/bin:$HOME/.rbenv/bin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-export EDITOR=vim
-
-# Set Vim runtime for Neovim
-if [[ -d "/usr/share/vim/vim73/" ]]
-then
-	export VIMRUNTIME=/usr/share/vim/vim73
-elif [[ -d "/usr/share/vim/vim74/" ]]
-then
-	export VIMRUNTIME=/usr/share/vim/vim74
-fi
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -92,7 +81,6 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias v="f -e vim"
 alias be="noglob bundle exec"
 alias bi="noglob bundle install"
 
@@ -100,45 +88,7 @@ alias bi="noglob bundle install"
 # http://mikeballou.com/blog/2011/07/18/zsh-and-rake-parameters/
 alias rake='noglob rake'
 
-# Use Neovim if available
-if [[ -x "/opt/boxen/homebrew/bin/nvim" ]]
-then
-	alias vim=nvim
-fi
-
 # Disable XON/XOFF (Ctrl-S/Ctrl-Q)
 stty -ixon
-
-eval "$(fasd --init auto)"
-
-export GOPATH=~/src/go
-
-# Load rbenv if it's installed
-eval "$(rbenv init -)"
-
-#API keys, etc
-if [ -e ~/.bashrc_private ]
-then
-    source ~/.bashrc_private
-fi
-
-function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
-function vp() { vim $(find . -name '*.rb' \
-	                  -o -name '*.gemspec' \
-	                  -o -name '*.erb' \
-	                  -o -name '*.py' \
-			  -o -name '*.java' \
-			  -o -name '*.xml' \
-			  -o -name '*.clj' \
-			  -o -name '*.sh' \
-			  -o -name '*.js' \
-			  -o -name '*.hbs' \
-			  -o -name '*.go' |
-                      grep -v node_modules |
-		      grep -v bower_components |
-		      selecta); }
-function branchp() { git checkout $(git branch -la | tr '*' '1' | sort -r | sed 's/remotes\/origin\///g' | cut -c 3- | sort | uniq | selecta); }
-function isodate() { date +%Y-%m-%d }
-function proj() { cd $(find ~/src ~/src/experiments -maxdepth 1 -type d | selecta); }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
