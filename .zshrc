@@ -137,7 +137,7 @@ function vp() { vim $(find . -name '*.rb' \
                       grep -v node_modules |
 		      grep -v bower_components |
 		      selecta); }
-function branchp() { git checkout $(git branch | tr '*' '1' | sort -r | cut -c 3- | selecta); }
+function branchp() { git checkout $(git branch -la | tr '*' '1' | sort -r | sed 's/remotes\/origin\///g' | cut -c 3- | sort | uniq | selecta); }
 function isodate() { date +%Y-%m-%d }
 function proj() { cd $(find ~/src ~/src/experiments -maxdepth 1 -type d | selecta); }
 
