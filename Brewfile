@@ -78,3 +78,9 @@ mas "Divvy", id: 413857545
 mas "GrandPerspective", id: 1111570163
 mas "Pixelmator", id: 407963104
 mas "Numbers", id: 409203825
+mas "Keynote", id: 409183694
+mas "Fantastical 2", id: 975937182
+mas "Airmail 3", id: 918858936
+mas "Marked 2", id: 890031187
+mas "Pages", id: 409201541
+mas "Deliveries", id: 924726344
