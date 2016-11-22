@@ -8,6 +8,7 @@ tap 'caskroom/cask'
 ## CLI Tools
 brew "ack"
 brew "ansible"
+brew "chromedriver"
 brew "docker"
 brew "emacs"
 brew "fasd"
