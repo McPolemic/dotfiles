@@ -22,9 +22,12 @@ function vp() { vim $(find . -name '*.rb' \
 	                  -o -name '*.py' \
 			  -o -name '*.java' \
 			  -o -name '*.xml' \
+			  -o -name '*.html' \
+			  -o -name '*.haml' \
 			  -o -name '*.clj' \
 			  -o -name '*.sh' \
 			  -o -name '*.js' \
+			  -o -name '*.coffee' \
 			  -o -name '*.hbs' \
 			  -o -name '*.go' |
                       grep -v node_modules |
