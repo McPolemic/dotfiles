@@ -238,6 +238,12 @@ endfunction
 map <leader>2 :mksession! ~/.vim_session<CR>
 map <leader>3 :source ~/.vim_session<CR>
 
+" Tab bindings
+map <leader>tn :tabnext<CR>
+map <leader>tp :tabprev<CR>
+map <leader>to :tabnew<CR>
+map <leader>tq :tabclose<CR>
+
 "Set a minimum height for splits so you can see what's going on
 set winheight=15
 
