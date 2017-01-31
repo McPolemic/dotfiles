@@ -251,6 +251,10 @@ map <leader>tp :tabprev<CR>
 map <leader>to :tabnew<CR>
 map <leader>tq :tabclose<CR>
 
+" Buffer bindings
+map <leader>bn :bnext<CR>
+map <leader>bp :bprevious<CR>
+
 "Set a minimum height for splits so you can see what's going on
 set winheight=15
 
