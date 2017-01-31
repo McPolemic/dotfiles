@@ -95,3 +95,4 @@ popd()
 alias cd='pushd'
 alias back='popd'
 alias flip='pushd_builtin'
+alias agrb='ag --ruby'
