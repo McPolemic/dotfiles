@@ -49,3 +49,6 @@
 [submodule ".vim/bundle/UltiSnips"]
 	path = .vim/bundle/UltiSnips
 	url = https://github.com/SirVer/ultisnips.git
+[submodule ".vim/bundle/AnsiEsc"]
+	path = .vim/bundle/AnsiEsc
+	url = https://github.com/vim-scripts/AnsiEsc.vim.git
