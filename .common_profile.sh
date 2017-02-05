@@ -3,7 +3,7 @@
 export EDITOR=vim
 # Much larger history
 export HISTFILESIZE=1000000
-export PATH=~/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=~/bin:/usr/local/bin:/usr/local/sbin:$PATH:~/.rbenv/bin
 
 ##################### Aliases ####################
 alias v="f -e vim"
