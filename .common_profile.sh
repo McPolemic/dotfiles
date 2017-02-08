@@ -54,6 +54,7 @@ fi
 
 ##################### Go ####################
 export GOPATH=~/src/go
+export PATH=$PATH:$GOPATH/bin
 
 ##################### Ruby ####################
 # Load rbenv if it's installed
