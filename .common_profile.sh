@@ -3,7 +3,7 @@
 export EDITOR=vim
 # Much larger history
 export HISTFILESIZE=1000000
-export PATH=~/bin:/usr/local/bin:/usr/local/sbin:$PATH:~/.rbenv/bin
+export PATH=~/bin:/usr/local/bin:/usr/local/sbin:$PATH:~/.local/bin:~/.rbenv/bin
 
 ##################### Aliases ####################
 alias v="f -e vim"
@@ -33,6 +33,8 @@ function vp() { vim $(find . -name '*.rb' \
                       grep -v node_modules |
 		      grep -v bower_components |
 		      selecta); }
+# Select from a list of files already added/modified/deleted from Git
+function vc() { vim $(git status -s | cut -c 3- | selecta); }
 function branchp() { git checkout $(git branch -la | tr '*' '1' | sort -r | sed 's/remotes\/origin\///g' | cut -c 3- | sort | uniq | selecta); }
 function isodate() { date +%Y-%m-%d; }
 function proj() { cd $(find ~/src ~/src/experiments -maxdepth 1 -type d | selecta); }
