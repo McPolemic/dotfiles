@@ -30,4 +30,20 @@ snippet disable
 # rubocop:disable $1
 endsnippet
 
+snippet desc
+describe $1 do
+  $0
+end
+endsnippet
 
+snippet context
+context $1 do
+  $0
+end
+endsnippet
+
+snippet it
+it "$1" do
+  ${0:pending}
+end
+endsnippet
