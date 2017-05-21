@@ -5,6 +5,9 @@
 # Install Cask
 tap 'caskroom/cask'
 
+# Install drivers (for Sonos)
+tap 'caskroom/drivers'
+
 ## CLI Tools
 brew "ack"
 brew "ansible"
@@ -70,6 +73,8 @@ cask "transmit"
 cask "dash"
 cask "fluid"
 cask "postman"
+
+cask "vlc"
 
 # Mac App Store
 mas "Tweetbot", id: 557168941
