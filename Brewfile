@@ -45,6 +45,7 @@ brew "tree"
 brew "unrar"
 brew "watch"
 brew "wget"
+brew "giflossy"
 
 ## Menubar Tools
 cask "alfred"
