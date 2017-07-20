@@ -24,6 +24,7 @@ s = status
 lv = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short
 lf = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short --numstat
 root = rev-parse --show-toplevel
+	pushf = push --force-with-lease
 
 [mergetool]
 	keepBackup = true
