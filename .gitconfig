@@ -31,3 +31,5 @@ root = rev-parse --show-toplevel
 [core]
 	excludesfile = ~/.gitignore
 	pager = less -FRXK
+[rerere]
+	enabled = true
