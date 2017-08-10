@@ -38,6 +38,12 @@ function vc() { vim $(git status -s | cut -c 3- | selecta); }
 function branchp() { git checkout $(git branch -la | tr '*' '1' | sort -r | sed 's/remotes\/origin\///g' | cut -c 3- | sort | uniq | selecta); }
 function isodate() { date +%Y-%m-%d; }
 function proj() { cd $(find ~/src ~/src/experiments -maxdepth 1 -type d | selecta); }
+
+function editp () {
+	PATTERN=$1
+	vim $(ag -c "$PATTERN" | cut -d ':' -f 1) "+/$PATTERN"
+
+}
 ##################### NeoVim/Vim ####################
 # Set Vim runtime for Neovim
 if [[ -d "/usr/share/vim/vim73/" ]]
