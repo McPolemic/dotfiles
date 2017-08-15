@@ -2,3 +2,4 @@
 *.swp
 *.swo
 .byebug_history
+/.vim/.netrwhist
