@@ -44,6 +44,16 @@ function editp () {
 	vim $(ag -c "$PATTERN" | cut -d ':' -f 1) "+/$PATTERN"
 
 }
+
+# Give us a temporary directory and a shell. Once we exit, delete the directory
+function sandbox () {
+	local MY_TEMP_DIR="$(mktemp -d)"
+	echo "Entering sandbox directory: $MY_TEMP_DIR"
+	sh -c "cd $MY_TEMP_DIR; exec \"${SHELL:-sh}\""
+	echo "Exiting and deleting sandbox directory..."
+	rm -rf $MY_TEMP_DIR
+}
+
 ##################### NeoVim/Vim ####################
 # Set Vim runtime for Neovim
 if [[ -d "/usr/share/vim/vim73/" ]]
