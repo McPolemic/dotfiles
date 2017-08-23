@@ -70,11 +70,14 @@ then
 	alias vim=nvim
 fi
 
-##################### Go ####################
+#################### Go ######################
 export GOPATH=~/src/go
 export PATH=$PATH:$GOPATH/bin
 
-##################### Ruby ####################
+################## Elixir ####################
+export ERL_AFLAGS="-kernel shell_history enabled"
+
+################## Ruby ######################
 # Load rbenv if it's installed
 eval "$(rbenv init -)"
 
