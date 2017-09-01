@@ -76,6 +76,7 @@ cask "fluid"
 cask "postman"
 
 cask "vlc"
+cask "superduper"
 
 # Mac App Store
 mas "Tweetbot", id: 557168941
