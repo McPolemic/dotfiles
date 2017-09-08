@@ -37,6 +37,7 @@ brew "selecta"
 brew "sloccount"
 brew "sqlite"
 brew "ssh-copy-id"
+brew "httpie"
 #SSHPass <- Used for Ansible
 brew "http://git.io/sshpass.rb"
 brew "the_silver_searcher"
