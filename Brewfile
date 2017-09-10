@@ -75,6 +75,7 @@ cask "transmit"
 cask "dash"
 cask "fluid"
 cask "postman"
+cask "ngrok"
 
 cask "vlc"
 cask "superduper"
