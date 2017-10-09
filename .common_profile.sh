@@ -77,6 +77,13 @@ export PATH=$PATH:$GOPATH/bin
 ################## Elixir ####################
 export ERL_AFLAGS="-kernel shell_history enabled"
 
+
+################## ASDF ######################
+if [[ -d "$HOME/.asdf" ]]; then
+	source $HOME/.asdf/asdf.sh
+	source $HOME/.asdf/completions/asdf.bash
+fi
+
 ################## Ruby ######################
 # Load rbenv if it's installed
 eval "$(rbenv init -)"
