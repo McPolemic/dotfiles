@@ -90,7 +90,7 @@ if has('statusline')
     " %=        right-align following items
     " #%n       buffer number
     " %l/%L,%c%V    line number, total number of lines, and column number
-    function SetStatusLineStyle()
+    function! SetStatusLineStyle()
         if &stl == '' || &stl =~ 'synID'
             let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]}%{'~'[&pm=='']}%=#%n %l/%L,%c%V "
         else
@@ -129,7 +129,7 @@ endfunction
 
 " Find all files in all non-dot directories starting in the working directory.
 " Fuzzy select one of those. Open the selected file with :e.
-nnoremap <leader>f :call SelectaCommand("find * -type f", "", ":e")<cr>
+nnoremap <leader>f :call SelectaCommand("find * -type f ! -name '*.beam' ! -name '*.swp'", "", ":e")<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SWITCH BETWEEN TEST AND PRODUCTION CODE
