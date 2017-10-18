@@ -1,7 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 export ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
-source ~/.common_profile.sh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -54,6 +53,8 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+source ~/.common_profile.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
