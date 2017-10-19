@@ -56,7 +56,11 @@ function sandbox () {
 
 ##################### NeoVim/Vim ####################
 # Set Vim runtime for Neovim
-if [[ -d "/usr/share/vim/vim73/" ]]
+
+if [[ -d "/usr/local/share/vim/vim80/" ]]
+then
+	export VIMRUNTIME=/usr/local/share/vim/vim80
+elif [[ -d "/usr/share/vim/vim73/" ]]
 then
 	export VIMRUNTIME=/usr/share/vim/vim73
 elif [[ -d "/usr/share/vim/vim74/" ]]
