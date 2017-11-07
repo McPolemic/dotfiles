@@ -29,6 +29,8 @@ function vp() { vim $(find . -name '*.rb' \
 			  -o -name '*.js' \
 			  -o -name '*.coffee' \
 			  -o -name '*.hbs' \
+			  -o -name '*.ex' \
+			  -o -name '*.exs' \
 			  -o -name '*.go' |
                       grep -v node_modules |
 		      grep -v bower_components |
