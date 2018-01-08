@@ -61,3 +61,6 @@
 [submodule ".asdf"]
 	path = .asdf
 	url = https://github.com/asdf-vm/asdf.git
+[submodule ".vim/bundle/elm-vim"]
+	path = .vim/bundle/elm-vim
+	url = https://github.com/ElmCast/elm-vim.git
