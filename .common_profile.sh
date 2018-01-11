@@ -14,6 +14,13 @@ alias bi="bundle install"
 # Make a directory and go to it
 function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
+# Run the argument as a command and feed it to selecta
+function run_selecta_command() {
+    local command="$1"
+
+    echo "$(eval $command | selecta)"
+}
+
 # Open a fuzzy-finder of files of X type and then open vim to it
 function vp() { vim $(find . -name '*.rb' \
 	                  -o -name '*.rake' \

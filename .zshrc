@@ -100,22 +100,38 @@ fi
 # By default, ^S freezes terminal output and ^Q resumes it. Disable that so
 # that those keys can be used for other things.
 unsetopt flowcontrol
-# Run Selecta in the current working directory, appending the selected path, if
-# any, to the current command.
-function insert-selecta-path-in-command-line() {
-    local selected_path
+
+# Run command and pipe to Selecta in the current working directory, appending
+# the selected result to the command line
+function run_selecta_command_and_insert_in_command_line() {
+    local command="$1"
+    local output
     # Print a newline or we'll clobber the old prompt.
     echo
-    # Find the path; abort if the user doesn't select anything.
-    selected_path=$(find * -type f | selecta) || return
+
+    output=$(run_selecta_command "$command") || return
     # Append the selection to the current command buffer.
-    eval 'LBUFFER="$LBUFFER$selected_path"'
+    eval 'LBUFFER="$LBUFFER$output"'
     # Redraw the prompt since Selecta has drawn several new lines of text.
     zle reset-prompt
 }
+
+# Give a menu and return the selected git branch
+function selecta-git-branch() {
+    run_selecta_command_and_insert_in_command_line "git branch -l | grep -v '^* '"
+}
+
+# Give a menu and return the selected file
+function selecta-find-file() {
+    run_selecta_command_and_insert_in_command_line "find . -type f"
+}
+
 # Create the zle widget
-zle -N insert-selecta-path-in-command-line
+zle -N selecta-git-branch
+zle -N selecta-find-file
+
 # Bind the key to the newly created widget
-bindkey "^S" "insert-selecta-path-in-command-line"
+bindkey "^F^B" "selecta-git-branch"
+bindkey "^F^F" "selecta-find-file"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
