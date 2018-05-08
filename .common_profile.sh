@@ -38,6 +38,7 @@ function vp() { vim $(find . -name '*.rb' \
 			  -o -name '*.hbs' \
 			  -o -name '*.ex' \
 			  -o -name '*.exs' \
+			  -o -name '*.elm' \
 			  -o -name '*.go' |
                       grep -v node_modules |
 		      grep -v bower_components |
@@ -138,19 +139,8 @@ alias cd='pushd'
 alias back='popd'
 alias flip='pushd_builtin'
 alias agrb='ag --ruby'
-# Add the following to your ~/.bashrc or ~/.zshrc
-#
-# Alternatively, copy/symlink this file and source in your shell.  See `pair --setup-path`.
 
+# Set up co-authoring for git commits
 pair() {
-  if gem list -i pair-up 2>/dev/null 1>/dev/null; then
-    command pair "$@"
-    if [[ -s "$HOME/.pair-up_export_authors" ]] ; then source "$HOME/.pair-up_export_authors" ; fi
-  else
-    echo "You do not have pair-up installed for your current ruby version."
-    echo "Please run $> gem install pair-up"
-  fi
+  echo "To be implemented"
 }
-
-# Uncomment to persist pair info between terminal instances
-# pair
