@@ -14,40 +14,40 @@ alias bi="bundle install"
 # Make a directory and go to it
 function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
-# Run the argument as a command and feed it to selecta
-function run_selecta_command() {
+# Run the argument as a command and feed it to a fuzzy-finder
+function fuzzy_find() {
     local command="$1"
 
-    echo "$(eval $command | selecta)"
+    echo "$(eval $command | fzf --height=20)"
 }
 
 # Open a fuzzy-finder of files of X type and then open vim to it
-function vp() { vim $(find . -name '*.rb' \
-	                  -o -name '*.rake' \
-	                  -o -name '*.gemspec' \
-	                  -o -name '*.erb' \
-	                  -o -name '*.py' \
-			  -o -name '*.java' \
-			  -o -name '*.xml' \
-			  -o -name '*.html' \
-			  -o -name '*.haml' \
-			  -o -name '*.clj' \
-			  -o -name '*.sh' \
-			  -o -name '*.js' \
-			  -o -name '*.coffee' \
-			  -o -name '*.hbs' \
-			  -o -name '*.ex' \
-			  -o -name '*.exs' \
-			  -o -name '*.elm' \
-			  -o -name '*.go' |
-                      grep -v node_modules |
-		      grep -v bower_components |
-		      selecta); }
+function vp() { vim $(fuzzy_find "find . -name '*.rb' \
+                                      -o -name '*.rake' \
+                                      -o -name '*.gemspec' \
+                                      -o -name '*.erb' \
+                                      -o -name '*.py' \
+                                      -o -name '*.java' \
+                                      -o -name '*.xml' \
+                                      -o -name '*.html' \
+                                      -o -name '*.haml' \
+                                      -o -name '*.clj' \
+                                      -o -name '*.sh' \
+                                      -o -name '*.js' \
+                                      -o -name '*.coffee' \
+                                      -o -name '*.hbs' \
+                                      -o -name '*.ex' \
+                                      -o -name '*.exs' \
+                                      -o -name '*.elm' \
+                                      -o -name '*.go' |
+                                  grep -v node_modules |
+                                  grep -v bower_components |
+				  grep -v 'beam$'"); }
 # Select from a list of files already added/modified/deleted from Git
-function vc() { vim $(git status -s | cut -c 3- | selecta); }
-function branchp() { git checkout $(git branch -la | tr '*' '1' | sort -r | sed 's/remotes\/origin\///g' | cut -c 3- | sort | uniq | selecta); }
+function vc() { vim $(fuzzy_find "git status -s | cut -c 3-"); }
+function branchp() { git checkout $(fuzzy_find "git branch -la | tr '*' '1' | sort -r | sed 's/remotes\/origin\///g' | cut -c 3- | sort | uniq"); }
 function isodate() { date +%Y-%m-%d; }
-function proj() { cd $(find ~/src -maxdepth 2 -type d | selecta); }
+function proj() { cd $(fuzzy_find "find ~/src -maxdepth 2 -type d"); }
 
 function editp () {
 	PATTERN=$1

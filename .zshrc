@@ -103,13 +103,13 @@ unsetopt flowcontrol
 
 # Run command and pipe to Selecta in the current working directory, appending
 # the selected result to the command line
-function run_selecta_command_and_insert_in_command_line() {
+function run_fuzzy_find_command_and_insert_in_command_line() {
     local command="$1"
     local output
     # Print a newline or we'll clobber the old prompt.
     echo
 
-    output=$(run_selecta_command "$command") || return
+    output=$(fuzzy_find "$command") || return
     # Append the selection to the current command buffer.
     eval 'LBUFFER="$LBUFFER$output"'
     # Redraw the prompt since Selecta has drawn several new lines of text.
@@ -117,21 +117,21 @@ function run_selecta_command_and_insert_in_command_line() {
 }
 
 # Give a menu and return the selected git branch
-function selecta-git-branch() {
-    run_selecta_command_and_insert_in_command_line "git branch -l | grep -v '^* '"
+function fuzzy-find-git-branch() {
+    run_fuzzy_find_command_and_insert_in_command_line "git branch -l | grep -v '^* '"
 }
 
 # Give a menu and return the selected file
-function selecta-find-file() {
-    run_selecta_command_and_insert_in_command_line "find . -type f"
+function fuzzy-find-find-file() {
+    run_fuzzy_find_command_and_insert_in_command_line "find . -type f"
 }
 
 # Create the zle widget
-zle -N selecta-git-branch
-zle -N selecta-find-file
+zle -N fuzzy-find-git-branch
+zle -N fuzzy-find-find-file
 
 # Bind the key to the newly created widget
-bindkey "^F^B" "selecta-git-branch"
-bindkey "^F^F" "selecta-find-file"
+bindkey "^F^B" "fuzzy-find-git-branch"
+bindkey "^F^F" "fuzzy-find-find-file"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
