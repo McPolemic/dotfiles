@@ -85,16 +85,15 @@ cask "vlc"
 cask "superduper"
 
 # Mac App Store
-mas "Tweetbot", id: 557168941
+mas "Tweetbot", id: 1384080005
 mas "1Password", id: 443987910
 mas "Shush", id: 496437906
 mas "Divvy", id: 413857545
 mas "GrandPerspective", id: 1111570163
-mas "Pixelmator", id: 407963104
+mas "Pixelmator Pro", id: 1289583905
 mas "Numbers", id: 409203825
 mas "Keynote", id: 409183694
 mas "Fantastical 2", id: 975937182
-mas "Airmail 3", id: 918858936
 mas "Marked 2", id: 890031187
 mas "Pages", id: 409201541
 mas "Deliveries", id: 924726344
