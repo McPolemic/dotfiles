@@ -13,9 +13,7 @@ function! AlternateForCurrentFile()
 
   if going_to_spec
     let new_file = substitute(new_file, '\.e\?ex$', '_test.exs', '')
-    echom new_file
     let new_file = substitute(new_file, '^\(./\)*lib/', 'test/', '')
-    echom new_file
   else
     let new_file = substitute(new_file, '_test\.exs$', '.ex', '')
     let new_file = substitute(new_file, '^\(./\)*test/', 'lib/', '')
