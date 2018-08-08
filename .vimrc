@@ -237,3 +237,8 @@ set winheight=15
 
 " Enable 256 color
 set t_Co=256
+
+" MacVim settings
+if has("gui_running")
+	set guifont=Fira\ Code:h18
+endif
