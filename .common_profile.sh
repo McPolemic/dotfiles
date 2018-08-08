@@ -139,8 +139,3 @@ alias cd='pushd'
 alias back='popd'
 alias flip='pushd_builtin'
 alias agrb='ag --ruby'
-
-# Set up co-authoring for git commits
-pair() {
-  echo "To be implemented"
-}
