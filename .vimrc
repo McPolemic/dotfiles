@@ -44,6 +44,13 @@ noremap <leader><CR> :nohlsearch<CR>
 " Paste yanked line over current line
 noremap <leader>p pkdd
 
+" Simpler splits
+" `-` and `|` represents the bar that will show up, so
+" * `-` is a horizontal split
+" * `|` is a vertical split
+noremap <leader>- :sp<CR>
+noremap <leader>\| :vs<CR>
+
 set grepprg=ack\ -k
 
 " Ctrl-P Options
