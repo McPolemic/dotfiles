@@ -11,6 +11,15 @@ alias be="bundle exec"
 alias bi="bundle install"
 
 ##################### Functions ####################
+# Edit the current clipboard in vim
+function edit_clipboard {
+  FILE=$(mktemp)
+  pbpaste > $FILE
+  vim $FILE
+  cat $FILE | pbcopy
+  rm $FILE
+}
+
 # Make a directory and go to it
 function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
