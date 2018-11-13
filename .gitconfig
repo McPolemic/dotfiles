@@ -35,3 +35,7 @@ pushf = push --force-with-lease
 	enabled = true
 [commit]
 	verbose = true
+[github]
+	user = McPolemic
+[credential]
+	helper = osxkeychain
