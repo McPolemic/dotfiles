@@ -67,3 +67,6 @@
 [submodule ".vim/bundle/vim-vue"]
 	path = .vim/bundle/vim-vue
 	url = https://github.com/posva/vim-vue.git
+[submodule ".vim/bundle/vim-ripgrep"]
+	path = .vim/bundle/vim-ripgrep
+	url = https://github.com/jremmen/vim-ripgrep.git
