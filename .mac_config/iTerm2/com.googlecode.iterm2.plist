@@ -91,19 +91,19 @@
 	<key>NSWindow Frame ProfilesPanel</key>
 	<string>532 958 735 382 0 0 2560 1417 </string>
 	<key>NSWindow Frame SUAutomaticUpdateAlert</key>
-	<string>3212 662 616 174 2560 0 1920 1057 </string>
+	<string>972 932 616 174 0 0 2560 1417 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>970 769 620 392 0 0 2560 1417 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 139 606 456 0 0 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>2799 395 918 512 2560 0 1920 1057 </string>
+	<string>1487 621 937 512 0 0 2560 1417 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>230 833 592 584 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1280 23 1275 1394 0 0 2560 1417 </string>
-	<key>NSWindow Frame iTerm Window 1</key>
 	<string>1280 0 1275 1417 0 0 2560 1417 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>1027 488 1143 929 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>1280 11 1277 699 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
@@ -324,7 +324,7 @@
 			<key>Disable Window Resizing</key>
 			<true/>
 			<key>Flashing Bell</key>
-			<false/>
+			<true/>
 			<key>Foreground Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -675,7 +675,7 @@
 			<key>Shortcut</key>
 			<string></string>
 			<key>Silence Bell</key>
-			<false/>
+			<true/>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tags</key>
@@ -707,6 +707,8 @@
 		</dict>
 	</array>
 	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
+	<true/>
+	<key>NoSyncHaveUsedCopyMode</key>
 	<true/>
 	<key>NoSyncHaveWarnedAboutIncompatibleSoftware</key>
 	<true/>
@@ -784,7 +786,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-08-09T14:48:47Z</date>
+	<date>2018-10-24T13:15:58Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
