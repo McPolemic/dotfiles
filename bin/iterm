@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# A command-line script to launch a new iTerm2 window and run a command.
+# Example:
+#
+# $ iterm "vim ~/src/dotfiles/bin/iterm; exit"
+read -r -d '' script <<'EOF'
+on run argv
+tell application "iTerm2"
+    activate
+    set myterm to (create window with default profile)
+    tell myterm
+        tell current session of myterm
+            repeat with arg in argv
+               write text arg newline NO
+            end repeat
+            write text ""
+        end tell
+    end tell
+end tell
+end run
+EOF
+echo "$script" | osascript ``-'' $@
