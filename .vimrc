@@ -43,6 +43,8 @@ noremap <leader>cd :cd %:p:h<CR>
 noremap <leader><CR> :nohlsearch<CR>
 " Paste yanked line over current line
 noremap <leader>p pkdd
+" Switch to alternate file (test/production code)
+noremap <leader>. :A
 
 " Simpler splits
 " `-` and `|` represents the bar that will show up, so
