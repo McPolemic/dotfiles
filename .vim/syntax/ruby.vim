@@ -2,9 +2,9 @@ autocmd User ProjectionistDetect
 \ call projectionist#append(getcwd(),
 \ {
 \    'app/*.rb': {
-\      'alternate': 'spec/{}_spec.rb'
+\      'alternate': 'test/{}_test.rb'
 \    },
-\    'spec/*_spec.rb': {
+\    'test/*_test.rb': {
 \      'alternate': 'app/{}.rb'
 \    },
 \ })
