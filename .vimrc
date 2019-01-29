@@ -44,7 +44,13 @@ noremap <leader><CR> :nohlsearch<CR>
 " Paste yanked line over current line
 noremap <leader>p pkdd
 " Switch to alternate file (test/production code)
-noremap <leader>. :A
+noremap <leader>. :A<CR>
+
+" ALTERNATE MAPPINGS
+noremap <leader>aa :A<CR>
+noremap <leader>as :AS<CR>
+noremap <leader>av :AV<CR>
+noremap <leader>at :AT<CR>
 
 " Simpler splits
 " `-` and `|` represents the bar that will show up, so
@@ -123,22 +129,24 @@ endif
 
 " Run a given vim command on the results of fuzzy selecting from a given shell
 " command. See usage below.
-function! SelectaCommand(choice_command, selecta_args, vim_command)
+function! FuzzyFindCommand(choice_command, fuzzy_finder_args, vim_command)
+  let temp_file = tempname()
   try
-    let selection = system(a:choice_command . " | selecta " .  a:selecta_args)
-  catch /Vim:Interrupt/
-    " Swallow the ^C so that the redraw below happens; otherwise there will be
-    " leftovers from selecta on the screen
+    execute("silent !" . a:choice_command . " | fzf " . a:fuzzy_finder_args . " > " . temp_file)
+
+    if !v:shell_error
+      execute("silent " . a:vim_command . " " . join(readfile(temp_file), ''))
+    endif
     redraw!
-    return
+  finally
+    silent! call delete(temp_file)
+    redraw!
   endtry
-  redraw!
-  exec a:vim_command . " " . selection
 endfunction
 
 " Find all files in all non-dot directories starting in the working directory.
 " Fuzzy select one of those. Open the selected file with :e.
-nnoremap <leader>f :call SelectaCommand("find * -type f ! -name '*.beam' ! -name '*.swp'", "", ":e")<cr>
+nnoremap <leader>f :call FuzzyFindCommand("find * -type f", "", "e")<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
@@ -155,7 +163,7 @@ function! RunTestFile(...)
   endif
 
   " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|test_.*\.py\|_test.py\|_test.exs\)$') != -1
+  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\|test_.*\.py\|_test.py\|_test.exs\)$') != -1
   if in_test_file
     call SetTestFile(command_suffix)
   elseif !exists("t:current_test_file")
