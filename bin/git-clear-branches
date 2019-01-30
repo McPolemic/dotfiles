@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Clears any local branches that have already been merged
+
+# TODO - We should go to the primary branch first, verify that it can without
+#        error, and _then_ delete merged branches. This can go badly if you're
+#        in a topic branch and try clearing branches.
+git branch -l | grep -v '*' | xargs git branch -d 2>/dev/null
