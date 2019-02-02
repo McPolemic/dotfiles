@@ -11,6 +11,7 @@ tap 'caskroom/drivers'
 ## CLI Tools
 brew "ack"
 brew "ansible"
+brew "bat"
 brew "chromedriver"
 brew "docker"
 brew "dos2unix"
