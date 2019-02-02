@@ -51,6 +51,19 @@ function sandbox () {
 	rm -rf $MY_TEMP_DIR
 }
 
+# Whenever we `cat`, attempt to use `bat` (enhanced `cat`) if it's installed
+# https://github.com/sharkdp/bat
+#
+# Fun fact: We use `command cat` below to guarantee we run the command, not the
+# shell function. This way we can, you know, exit successfully.
+function cat {
+  if command -v bat 2>&1 >/dev/null; then
+    command bat "$@"
+  else
+    command cat "$@"
+  fi
+}
+
 ##################### NeoVim/Vim ####################
 # Set Vim runtime for Neovim
 
