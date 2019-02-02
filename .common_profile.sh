@@ -30,28 +30,6 @@ function fuzzy_find() {
     echo "$(eval $command | fzf --height=20)"
 }
 
-# Open a fuzzy-finder of files of X type and then open vim to it
-function vp() { vim $(fuzzy_find "find . -name '*.rb' \
-                                      -o -name '*.rake' \
-                                      -o -name '*.gemspec' \
-                                      -o -name '*.erb' \
-                                      -o -name '*.py' \
-                                      -o -name '*.java' \
-                                      -o -name '*.xml' \
-                                      -o -name '*.html' \
-                                      -o -name '*.haml' \
-                                      -o -name '*.clj' \
-                                      -o -name '*.sh' \
-                                      -o -name '*.js' \
-                                      -o -name '*.coffee' \
-                                      -o -name '*.hbs' \
-                                      -o -name '*.ex' \
-                                      -o -name '*.exs' \
-                                      -o -name '*.elm' \
-                                      -o -name '*.go' |
-                                  grep -v node_modules |
-                                  grep -v bower_components |
-				  grep -v 'beam$'"); }
 # Select from a list of files already added/modified/deleted from Git
 function vc() { vim $(fuzzy_find "git status -s | cut -c 3-"); }
 function branchp() { git checkout $(fuzzy_find "git branch -la | tr '*' '1' | sort -r | sed 's/remotes\/origin\///g' | cut -c 3- | sort | uniq"); }
@@ -61,7 +39,6 @@ function proj() { cd $(fuzzy_find "find ~/src -maxdepth 2 -type d"); }
 function editp () {
 	PATTERN=$1
 	vim $(ag -c "$PATTERN" | cut -d ':' -f 1) "+/$PATTERN"
-
 }
 
 # Give us a temporary directory and a shell. Once we exit, delete the directory
