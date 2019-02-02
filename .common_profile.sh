@@ -100,7 +100,9 @@ fi
 
 ################## Ruby ######################
 # Load rbenv if it's installed
-eval "$(rbenv init -)"
+if [[ -d "$HOME/.rbenv" ]]; then
+	eval "$(rbenv init -)"
+fi
 
 ##################### Secrets (API Keys, etc. Gitignored) ####################
 if [ -e ~/.secrets ]
