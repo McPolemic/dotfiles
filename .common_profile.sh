@@ -44,7 +44,7 @@ function editp () {
 # Give us a temporary directory and a shell. Once we exit, delete the directory
 function sandbox () {
 	local MY_TEMP_DIR="$(mktemp -d)"
-	echo "$MY_TEMP_DIR" | pbcopy
+	echo "$MY_TEMP_DIR" | pbcopy 2>/dev/null
 	echo "Entering sandbox directory: $MY_TEMP_DIR"
 	sh -c "cd $MY_TEMP_DIR; exec \"${SHELL:-sh}\""
 	echo "Exiting and deleting sandbox directory..."
