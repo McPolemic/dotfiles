@@ -39,3 +39,5 @@ pushf = push --force-with-lease
 	user = McPolemic
 [credential]
 	helper = osxkeychain
+[rebase]
+	autoSquash = true
