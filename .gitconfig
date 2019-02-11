@@ -41,3 +41,4 @@ pushf = push --force-with-lease
 	helper = osxkeychain
 [rebase]
 	autoSquash = true
+	autoStash = true
