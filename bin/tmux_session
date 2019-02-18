@@ -1,2 +1,10 @@
-#!/bin/sh
-tmux attach -t "$(tmux ls | fzf -q "$1" -1 | cut -d ':' -f 1)"
+#!/bin/bash
+
+set -o pipefail
+
+SESSION_NAME="$(tmux ls | fzf -q "$1" -1 | cut -d ':' -f 1)"
+if [[ $? -ne 0 ]]; then
+	exit 1
+fi
+
+tmux attach -t $SESSION_NAME
