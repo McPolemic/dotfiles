@@ -1,0 +1,2 @@
+#!/bin/sh
+tmux attach -t "$(tmux ls | fzf -q "$1" -1 | cut -d ':' -f 1)"
