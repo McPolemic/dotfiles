@@ -3,7 +3,7 @@
 	email = adam@testdouble.com
 
 [push]
-default = matching
+	default = current
 
 [diff]
 	tool = vimdiff
