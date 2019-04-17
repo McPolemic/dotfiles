@@ -28,8 +28,12 @@ set incsearch
 set scrolloff=7
 set sidescrolloff=10
 
+" Set up ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+
 " Line numbers
 set number
+
 " Easy insert string for escape
 inoremap jk <esc>
 

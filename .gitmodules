@@ -16,12 +16,6 @@
 [submodule ".vim/bundle/vim-fireplace"]
 	path = .vim/bundle/vim-fireplace
 	url = https://github.com/tpope/vim-fireplace.git
-[submodule ".vim/bundle/vim-clojure-static"]
-	path = .vim/bundle/vim-clojure-static
-	url = https://github.com/guns/vim-clojure-static.git
-[submodule ".vim/bundle/vim-leiningen"]
-	path = .vim/bundle/vim-leiningen
-	url = https://github.com/tpope/vim-leiningen.git
 [submodule ".vim/bundle/vim-projectionist"]
 	path = .vim/bundle/vim-projectionist
 	url = https://github.com/tpope/vim-projectionist.git
@@ -40,9 +34,6 @@
 [submodule ".vim/bundle/vim-selecta"]
 	path = .vim/bundle/vim-selecta
 	url = https://github.com/michaelavila/selecta.vim.git
-[submodule ".vim/bundle/vim-mustache-handlebars"]
-	path = .vim/bundle/vim-mustache-handlebars
-	url = git://github.com/mustache/vim-mustache-handlebars.git
 [submodule ".vim/vim-abolish"]
 	path = .vim/bundle/vim-abolish
 	url = https://github.com/tpope/vim-abolish.git
@@ -61,12 +52,9 @@
 [submodule ".asdf"]
 	path = .asdf
 	url = https://github.com/asdf-vm/asdf.git
-[submodule ".vim/bundle/elm-vim"]
-	path = .vim/bundle/elm-vim
-	url = https://github.com/ElmCast/elm-vim.git
-[submodule ".vim/bundle/vim-vue"]
-	path = .vim/bundle/vim-vue
-	url = https://github.com/posva/vim-vue.git
 [submodule ".vim/bundle/vim-ripgrep"]
 	path = .vim/bundle/vim-ripgrep
 	url = https://github.com/jremmen/vim-ripgrep.git
+[submodule ".vim/bundle/ultisnips"]
+	path = .vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips.git
