@@ -45,7 +45,7 @@ function editp () {
 function pr_watch() {
   GIT_REV="${1:-HEAD}"
   STATUS="$(hub ci-status "${GIT_REV}")"
-  while [ $STATUS  != "pending" ]; do
+  while [ $STATUS  = "pending" ]; do
     STATUS="$(hub ci-status "${GIT_REV}")"
     NEW_OUTPUT=$(hub ci-status -v --color "${GIT_REV}" | sort -u -k1,2)
     tput clear; echo "${NEW_OUTPUT}"; sleep 10
