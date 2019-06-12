@@ -11,7 +11,7 @@ then
 
   echo "Public key (for adding to GitHub)"
   echo "================================="
-  cat "${SSH_KEY}"
+  cat "${SSH_KEY}.pub"
   echo "================================="
   echo
   echo "Press enter to continue..."
