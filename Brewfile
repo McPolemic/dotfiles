@@ -94,9 +94,14 @@ mas "Fantastical 2", id: 975937182
 mas "GrandPerspective", id: 1111570163
 mas "Keynote", id: 409183694
 mas "Marked 2", id: 890031187
+mas "MindNode", id: 992076693
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Pixelmator Pro", id: 1289583905
+mas "Screenflow 7", id: 1223627207
 mas "Shush", id: 496437906
+mas "Skitch", id: 425955336
+mas "Soulver", id: 413965349
 mas "The Clock", id: 488764545
+mas "Things", id: 904280696
 mas "Tweetbot", id: 1384080005
