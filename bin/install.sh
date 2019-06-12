@@ -45,7 +45,7 @@ shopt -u dotglob
 
 # Install Homebrew (on MacOS)
 if [ $(uname) = "Darwin" ]; then
-  if ! [ -x $(command -v brew) ]; then
+  if ! [ -x "$(command -v brew)" ]; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 fi
