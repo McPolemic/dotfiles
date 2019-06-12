@@ -20,7 +20,7 @@ then
   read
 fi
 
-mkdir ~/src
+mkdir -p ~/src
 cd ~/src
 
 # Pull down the dotfiles repo
@@ -42,3 +42,13 @@ done
 
 # Set it back to normal
 shopt -u dotglob
+
+# Install Homebrew (on MacOS)
+if [ $(uname) = "Darwin" ]; then
+  if ! [ -x $(command -v brew) ]; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+fi
+
+# Install Brewfile
+brew bundle
