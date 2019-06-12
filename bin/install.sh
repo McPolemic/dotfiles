@@ -1,13 +1,6 @@
 #!/bin/bash
 set -e
 
-# Editable
-git clone --recursive git@github.com:McPolemic/dotfiles.git
-
-# Read-only
-# git clone --recursive https://github.com/McPolemic/dotfiles.git
-cd dotfiles
-
 # Create an SSH key if needed
 if [ ! -d ~/.ssh ]
 then
@@ -23,6 +16,16 @@ then
   # Pause for copying
   read
 fi
+
+mkdir ~/src
+cd ~/src
+
+# Pull down the dotfiles repo
+git clone --recursive git@github.com:McPolemic/dotfiles.git
+# Read-only
+# git clone --recursive https://github.com/McPolemic/dotfiles.git
+
+cd dotfiles
 
 # Set globs to show dotfiles
 shopt -s dotglob
