@@ -2,6 +2,7 @@
 set -e
 
 SSH_KEY=~/.ssh/id_rsa
+DOTFILES_PATH=~/src/dotfiles
 
 # Create an SSH key if needed
 if [ ! -f "${SSH_KEY}" ]
@@ -20,15 +21,18 @@ then
   read
 fi
 
-mkdir -p ~/src
-cd ~/src
+if [ -d "$DOTFILES_PATH" ]; then
+  cd "$DOTFILES_PATH"
+  git pull
+else
+  # Pull down the dotfiles repo
+  git clone --recursive git@github.com:McPolemic/dotfiles.git "$DOTFILES_PATH"
 
-# Pull down the dotfiles repo
-git clone --recursive git@github.com:McPolemic/dotfiles.git
-# Read-only
-# git clone --recursive https://github.com/McPolemic/dotfiles.git
+  # Read-only
+  # git clone --recursive https://github.com/McPolemic/dotfiles.git
+fi
 
-cd dotfiles
+cd "$DOTFILES_PATH"
 
 # Set globs to show dotfiles
 shopt -s dotglob
@@ -46,6 +50,7 @@ shopt -u dotglob
 # Install Homebrew (on MacOS)
 if [ $(uname) = "Darwin" ]; then
   if ! [ -x "$(command -v brew)" ]; then
+    echo "Installing Homebrew..."
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 fi
