@@ -1,18 +1,21 @@
 #!/bin/bash
 set -e
 
+SSH_KEY=~/.ssh/id_rsa
+
 # Create an SSH key if needed
-if [ ! -d ~/.ssh ]
+if [ ! -f "${SSH_KEY}" ]
 then
   echo "No SSH key found. Creating a new one..."
-  ssh-keygen -f ~/.ssh/id_rsa
+  ssh-keygen -f "${SSH_KEY}"
 
   echo "Public key (for adding to GitHub)"
   echo "================================="
-  cat ~/.ssh/id_rsa
+  cat "${SSH_KEY}"
   echo "================================="
   echo
   echo "Press enter to continue..."
+
   # Pause for copying
   read
 fi
