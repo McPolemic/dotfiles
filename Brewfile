@@ -15,7 +15,6 @@ tap 'homebrew/cask-fonts'
 brew "ack"
 brew "ansible"
 brew "bat"
-brew "chromedriver"
 brew "docker"
 brew "dos2unix"
 brew "emacs"
