@@ -8,6 +8,9 @@ tap 'caskroom/cask'
 # Install drivers (for Sonos)
 tap 'caskroom/drivers'
 
+# Fonts
+tap 'homebrew/cask-fonts'
+
 ## CLI Tools
 brew "ack"
 brew "ansible"
@@ -61,6 +64,7 @@ cask "dash"
 cask "docker"
 cask "dropbox"
 cask "firefox"
+cask "font-fira-code"
 cask "geekbench"
 cask "google-chrome"
 cask "hazel"
