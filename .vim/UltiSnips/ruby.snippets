@@ -1,7 +1,7 @@
 snippet source
 source "https://rubgems.org"
 
-gem '$1'
+gem "$1"
 endsnippet
 
 snippet class
@@ -20,12 +20,18 @@ end
 endsnippet
 
 snippet pry
-require pry
+require 'pry'
 binding.pry
 endsnippet
 
 snippet log
-puts "${1:var} --> #{$1}"
+puts "${1:var} --> #{$1.inspect}"
+endsnippet
+
+snippet LOG
+3.times { puts "*" * 60 }
+puts "${1:var} --> #{$1.inspect}"
+3.times { puts "*" * 60 }
 endsnippet
 
 snippet enable
