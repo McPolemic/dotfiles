@@ -95,6 +95,9 @@ then
 elif [[ -d "/usr/share/vim/vim74/" ]]
 then
 	export VIMRUNTIME=/usr/share/vim/vim74
+elif [[ -d "/usr/share/vim/vim80/" ]]
+then
+	export VIMRUNTIME=/usr/share/vim/vim80
 fi
 
 # Use Neovim if available
