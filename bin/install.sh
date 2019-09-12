@@ -53,7 +53,8 @@ if [ $(uname) = "Darwin" ]; then
     echo "Installing Homebrew..."
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
+
+  # Install Brewfile
+  brew bundle
 fi
 
-# Install Brewfile
-brew bundle
