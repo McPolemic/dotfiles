@@ -63,6 +63,12 @@ noremap <leader>at :AT<CR>
 noremap <leader>- :sp<CR>
 noremap <leader>\| :vs<CR>
 
+" Simpler key bindings for iPad use
+" Write all
+noremap <leader>w :wa<CR>
+" Quit current buffer
+noremap <leader>q :q<CR>
+
 set grepprg=ack\ -k
 
 " Ctrl-P Options
