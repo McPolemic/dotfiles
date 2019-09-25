@@ -101,6 +101,12 @@ fi
 # that those keys can be used for other things.
 unsetopt flowcontrol
 
+# Unset shared history and incremental appending history. This allows the time
+# of each command to be written to the ZSH history file
+unsetopt sharehistory
+unsetopt incappendhistory
+setopt incappendhistorytime
+
 # Run command and pipe to Selecta in the current working directory, appending
 # the selected result to the command line
 function run_fuzzy_find_command_and_insert_in_command_line() {
@@ -118,7 +124,7 @@ function run_fuzzy_find_command_and_insert_in_command_line() {
 
 # Give a menu and return the selected git branch
 function fuzzy-find-git-branch() {
-    run_fuzzy_find_command_and_insert_in_command_line "git branch -l | grep -v '^* '"
+    run_fuzzy_find_command_and_insert_in_command_line "git branch -l | grep -v '^* ' | grep -o '[^ ]\\+'"
 }
 
 # Give a menu and return the selected file
