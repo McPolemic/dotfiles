@@ -3,7 +3,7 @@
 export EDITOR=vim
 # Much larger history
 export HISTFILESIZE=1000000
-export PATH=~/bin:~/private_bin:/usr/local/bin:/usr/local/sbin:$PATH:~/.local/bin:~/.rbenv/bin
+export PATH=~/bin:~/private_bin:/usr/local/bin:/usr/local/sbin:$PATH:~/.local/bin:~/.rbenv/bin:~/src/flutter/bin
 
 ##################### Aliases ####################
 alias v="f -e vim"
