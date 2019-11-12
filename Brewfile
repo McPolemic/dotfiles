@@ -11,10 +11,14 @@ tap 'caskroom/drivers'
 # Fonts
 tap 'homebrew/cask-fonts'
 
+# Dart tap
+tap 'dart-lang/dart'
+
 ## CLI Tools
 brew "ack"
 brew "ansible"
 brew "bat"
+brew "dart"
 brew "docker"
 brew "dos2unix"
 brew "emacs"
