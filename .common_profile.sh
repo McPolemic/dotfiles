@@ -56,11 +56,6 @@ function pr_watch() {
 function sandbox () {
 	local MY_TEMP_DIR="$(mktemp -d)"
 
-	# Copy the path if we can
-	if command -v pbcopy 2>&1 >/dev/null; then
-		echo "$MY_TEMP_DIR" | pbcopy 2>/dev/null
-	fi
-
 	echo "Entering sandbox directory: $MY_TEMP_DIR"
 	sh -c "cd $MY_TEMP_DIR; exec \"${SHELL:-sh}\""
 	echo "Exiting and deleting sandbox directory..."
