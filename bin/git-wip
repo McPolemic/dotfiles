@@ -6,7 +6,7 @@ INVOKING_COMMAND="$(basename $0)"
 WIP_TAG="WIP"
 
 if [ "$INVOKING_COMMAND" = "git-wip" ]; then
-	git add . && git commit -m "${WIP_TAG}"
+	git add . && git commit --no-verify -m "${WIP_TAG}"
 elif [ "$INVOKING_COMMAND" = "git-unwip" ]; then
 	if [ "$(git show --format=format:%s -s)" = "${WIP_TAG}" ]; then
 		git reset HEAD^
