@@ -1,0 +1,23 @@
+#!/bin/sh
+# vim: set ft=sh:
+set -e
+
+INVOKING_COMMAND="$(basename $0)"
+WIP_TAG="WIP"
+
+if [ "$INVOKING_COMMAND" = "git-wip" ]; then
+	git add . && git commit -m "${WIP_TAG}"
+elif [ "$INVOKING_COMMAND" = "git-unwip" ]; then
+	if [ "$(git show --format=format:%s -s)" = "${WIP_TAG}" ]; then
+		git reset HEAD^
+	else
+		echo "========================================="
+		echo "ERROR: The last commit isn't a WIP commit."
+		echo "========================================="
+		echo "Last commit message is"
+		git show -s
+		exit 1
+	fi
+else
+	exit 1
+fi
