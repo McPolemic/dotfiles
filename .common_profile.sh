@@ -112,7 +112,13 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 ################## ASDF ######################
 if [[ -d "$HOME/.asdf" ]]; then
 	source $HOME/.asdf/asdf.sh
-	source $HOME/.asdf/completions/asdf.bash
+	if [ -n "$BASH_VERSION" ]; then
+		source $HOME/.asdf/completions/asdf.bash
+	elif [ -n "$ZSH_VERSION" ]; then
+		# https://github.com/asdf-vm/asdf/issues/68#issuecomment-624231622
+		fpath=(${ASDF_DIR}/completions $fpath)
+		autoload -Uz compinit && compinit
+	fi
 fi
 
 ################## Ruby ######################

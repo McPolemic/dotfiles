@@ -129,7 +129,7 @@ function fuzzy-find-git-branch() {
 
 # Give a menu and return the selected file
 function fuzzy-find-find-file() {
-    run_fuzzy_find_command_and_insert_in_command_line "find . -type f"
+    run_fuzzy_find_command_and_insert_in_command_line "fd"
 }
 
 # Create the zle widget
@@ -141,3 +141,13 @@ bindkey "^F^B" "fuzzy-find-git-branch"
 bindkey "^F^F" "fuzzy-find-find-file"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/adam/src/pgahq/pga-site-redesign/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/adam/src/pgahq/pga-site-redesign/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/adam/src/pgahq/pga-site-redesign/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/adam/src/pgahq/pga-site-redesign/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/adam/src/pgahq/pga-site-redesign/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/adam/src/pgahq/pga-site-redesign/node_modules/tabtab/.completions/slss.zsh
