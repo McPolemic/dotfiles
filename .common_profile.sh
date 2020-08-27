@@ -78,7 +78,10 @@ function cat {
 ##################### NeoVim/Vim ####################
 # Set Vim runtime for Neovim
 
-if [[ -d "/usr/local/share/vim/vim81/" ]]
+if [[ -d "/usr/local/share/vim/vim82/" ]]
+then
+	export VIMRUNTIME=/usr/local/share/vim/vim82
+elif [[ -d "/usr/local/share/vim/vim81/" ]]
 then
 	export VIMRUNTIME=/usr/local/share/vim/vim81
 elif [[ -d "/usr/local/share/vim/vim80/" ]]
