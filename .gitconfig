@@ -43,3 +43,5 @@ conflicts = diff --name-only --diff-filter=U
 [rebase]
 	autoSquash = true
 	autoStash = true
+[pull]
+	rebase = true
