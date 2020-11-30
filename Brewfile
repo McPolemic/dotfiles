@@ -3,10 +3,10 @@
 # Run `brew bundle` to brew the list below
 
 # Install Cask
-tap 'caskroom/cask'
+tap 'homebrew/cask'
 
 # Install drivers (for Sonos)
-tap 'caskroom/drivers'
+tap 'homebrew/cask-drivers'
 
 # Fonts
 tap 'homebrew/cask-fonts'
