@@ -93,7 +93,7 @@ cask "vlc"
 cask "vmware-fusion"
 
 # Mac App Store
-mas "1Password 7", 1333542190
+mas "1Password 7", id: 1333542190
 mas "Deliveries", id: 924726344
 mas "Divvy", id: 413857545
 mas "Fantastical 2", id: 975937182
