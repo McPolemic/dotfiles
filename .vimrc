@@ -259,6 +259,9 @@ map <leader>bp :bprevious<CR>
 map <leader>cn :cn<CR>
 map <leader>cp :cp<CR>
 
+" Enable tags finding the `.tags` file
+set tags+=.tags;
+
 "Set a minimum height for splits so you can see what's going on
 set winheight=15
 
