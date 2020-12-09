@@ -1,0 +1,2 @@
+#!/bin/sh
+ctags -R --languages=ruby -f .tags --output-format=e-ctags --exclude=.git --exclude=tmp --exclude=log . $(bundle list --paths)
