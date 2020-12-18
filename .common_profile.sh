@@ -34,6 +34,7 @@ function fuzzy_find() {
 function vc() { vim $(fuzzy_find "git status -s | cut -c 3-"); }
 function branchp() { git checkout $(fuzzy_find "git branch -la | tr '*' '1' | sort -r | sed 's/remotes\/origin\///g' | cut -c 3- | sort | uniq"); }
 function isodate() { date +%Y-%m-%d; }
+function isotime() { gdate +%Y-%m-%dT%H-%M-%S-%3N-%z; }
 function proj() { cd $(fuzzy_find "find ~/src -maxdepth 2 -type d"); }
 
 function editp () {
