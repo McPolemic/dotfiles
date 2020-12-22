@@ -76,6 +76,12 @@ function cat {
   fi
 }
 
+# The number of times I need to count uniq instances, sorted by the number of
+# occurrences...
+function count_uniq {
+  sort | uniq -c | sort -n
+}
+
 ##################### NeoVim/Vim ####################
 # Set Vim runtime for Neovim
 
