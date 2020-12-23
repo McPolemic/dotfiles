@@ -174,3 +174,6 @@ alias cd='pushd'
 alias back='popd'
 alias flip='pushd_builtin'
 alias agrb='ag --ruby'
+
+# Ubuntu uses `fd-find` instead of `fd`, so fix that
+alias fd='fdfind'
