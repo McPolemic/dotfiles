@@ -175,5 +175,9 @@ alias back='popd'
 alias flip='pushd_builtin'
 alias agrb='ag --ruby'
 
-# Ubuntu uses `fd-find` instead of `fd`, so fix that
-alias fd='fdfind'
+if ! [ -x "$(command -v fd)" ]; then
+	if [ -x "$(command -v fdfind)" ]; then
+		# Ubuntu uses `fd-find` instead of `fd`, so fix that
+		alias fd='fdfind'
+	fi
+fi
