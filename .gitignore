@@ -3,3 +3,4 @@
 *.swo
 .byebug_history
 /.vim/.netrwhist
+.tags
