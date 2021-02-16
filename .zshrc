@@ -107,6 +107,11 @@ unsetopt sharehistory
 unsetopt incappendhistory
 setopt incappendhistorytime
 
+# Allow `extendedglob`, which lets you negate wildcards like so:
+# (Get all directories except auth)
+# `ls ../^auth*`
+setopt extendedglob
+
 # Run command and pipe to Selecta in the current working directory, appending
 # the selected result to the command line
 function run_fuzzy_find_command_and_insert_in_command_line() {
