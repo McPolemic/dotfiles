@@ -10,6 +10,9 @@ colo molokai
 set backspace=indent,eol,start
 syntax on
 
+" Ruby support for % jumping on module, class, def, do, and end
+runtime macros/matchit.vim
+
 " Enable file type detection.
 " Use the default filetype settings, so that mail gets 'tw' set to 72,
 " 'cindent' is on in C files, etc.
