@@ -143,6 +143,12 @@ then
     source ~/.secrets
 fi
 
+##################### Bold Penguin-specific initialization ####################
+if [ -e ~/.bp_profile ]
+then
+    source ~/.bp_profile
+fi
+
 ##################### Miscellaneous ####################
 eval "$(fasd --init auto)"
 
