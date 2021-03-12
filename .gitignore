@@ -4,3 +4,5 @@
 .byebug_history
 /.vim/.netrwhist
 .tags
+.DS_Store
+.starscope.db
