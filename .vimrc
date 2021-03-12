@@ -53,12 +53,6 @@ noremap <leader>p pkdd
 " Switch to alternate file (test/production code)
 noremap <leader>. :A<CR>
 
-" ALTERNATE MAPPINGS
-noremap <leader>aa :A<CR>
-noremap <leader>as :AS<CR>
-noremap <leader>av :AV<CR>
-noremap <leader>at :AT<CR>
-
 " Simpler splits
 " `-` and `|` represents the bar that will show up, so
 " * `-` is a horizontal split
@@ -164,8 +158,12 @@ nnoremap <leader>f :call FuzzyFindCommand("fd", "", "e")<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Test file
+nnoremap <leader>tf :call RunTestFile()<cr>
 nnoremap <leader>t :call RunTestFile()<cr>
+" Test individual test
 nnoremap <leader>T :call RunNearestTest()<cr>
+" Run all tests
 nnoremap <leader>a :call RunTests('')<cr>
 
 function! RunTestFile(...)
@@ -206,18 +204,11 @@ function! RunTests(filename)
     " First choice: project-specific test script
     if filereadable("script/test")
       exec ":!script/test " . a:filename
-      " Fall back to the .test-commands pipe if available, assuming someone
-      " is reading the other side and running the commands
-    elseif filewritable(".test-commands")
-      let cmd = 'rspec --color --format progress --require "~/lib/vim_rspec_formatter" --format VimFormatter --out tmp/quickfix'
-      exec ":!echo " . cmd . " " . a:filename . " > .test-commands"
-
-      " Write an empty string to block until the command completes
-      sleep 100m " milliseconds
-      :!echo > .test-commands
-      redraw!
-      " Fall back to a blocking test run with Bundler
-    elseif filereadable("Gemfile")
+    " If we find a rails binstub, use rails tests
+    elseif filereadable("bin/rails")
+      exec ":!bin/rails test " . a:filename
+    " If we see a spec directory, assume rspec
+    elseif filereadable("spec/")
       exec ":!bundle exec rspec --color " . a:filename
       " If we see elixir-looking tests, assume they're run with mix
     elseif strlen(glob("test/**/*.exs") . glob("tests/**/*.exs"))
