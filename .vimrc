@@ -4,7 +4,9 @@ call pathogen#infect('bundle/{}')
 
 "Set default colorscheme
 colo molokai
-"colo koehler
+
+"81 column marker to know when we're running over 80 characters
+set colorcolumn=81
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
