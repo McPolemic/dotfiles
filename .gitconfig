@@ -9,6 +9,11 @@
 	tool = vimdiff
 	compactionHeuristic = true
 
+# https://stackoverflow.com/questions/49514426/how-can-i-git-diff-changes-to-rails-5-2-credentials
+[diff "encrypted"]
+	textconv = rails encrypted:show
+	cachetextconf = false
+
 [difftool]
 prompt = false
 
