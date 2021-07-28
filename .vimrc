@@ -29,6 +29,9 @@ autocmd FileType python set sw=4 sts=4 et
 
 set hlsearch
 set incsearch
+set nowritebackup
+set noswapfile
+set nobackup
 
 " N lines of context around the cursor
 set scrolloff=7
