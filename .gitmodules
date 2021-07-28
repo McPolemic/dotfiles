@@ -52,9 +52,6 @@
 [submodule ".asdf"]
 	path = .asdf
 	url = https://github.com/asdf-vm/asdf.git
-[submodule ".vim/bundle/vim-ripgrep"]
-	path = .vim/bundle/vim-ripgrep
-	url = https://github.com/jremmen/vim-ripgrep.git
 [submodule ".vim/bundle/ultisnips"]
 	path = .vim/bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips.git
