@@ -13,11 +13,9 @@ tap 'homebrew/cask-fonts'
 
 ## CLI Tools
 brew "ack"
-brew "ansible"
 brew "bat"
 brew "docker"
 brew "dos2unix"
-brew "emacs"
 brew "fasd"
 brew "fd"
 brew "findutils"
@@ -43,7 +41,6 @@ brew "restic"
 brew "ripgrep"
 brew "ruby-build"
 brew "ruby-install"
-brew "selecta"
 brew "sloccount"
 brew "sqlite"
 brew "ssh-copy-id"
@@ -80,6 +77,7 @@ cask "ngrok"
 cask "nvalt"
 cask "obs"
 cask "obs-virtualcam"
+cask "obsidian"
 cask "osxfuse"
 cask "postman"
 cask "slack"
@@ -91,10 +89,8 @@ cask "superduper"
 cask "tableplus"
 cask "transmission"
 cask "transmit"
-cask "virtualbox"
 cask "visual-studio-code"
 cask "vlc"
-cask "vmware-fusion"
 
 # Mac App Store
 mas "1Password 7", id: 1333542190
@@ -110,9 +106,7 @@ mas "Pages", id: 409201541
 mas "Pixelmator Pro", id: 1289583905
 mas "Screenflow 7", id: 1223627207
 mas "Shush", id: 496437906
-mas "Skitch", id: 425955336
 mas "Soulver", id: 413965349
-mas "The Clock", id: 488764545
 mas "Things", id: 904280696
 mas "Tweetbot", id: 1384080005
 mas "Spark", id: 1176895641
