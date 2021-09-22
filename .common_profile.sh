@@ -181,8 +181,8 @@ alias back='popd'
 alias flip='pushd_builtin'
 alias agrb='ag --ruby'
 
-if ! [ -x "$(command -v fd)" ]; then
-	if [ -x "$(command -v fdfind)" ]; then
+if ! command -v fd &>/dev/null; then
+	if command -v fdfind &>/dev/null; then
 		# Ubuntu uses `fd-find` instead of `fd`, so fix that
 		alias fd='fdfind'
 	fi
