@@ -4,6 +4,10 @@ export EDITOR=vim
 # Much larger history
 export HISTFILESIZE=1000000
 export PATH=~/bin:~/private_bin:/usr/local/bin:/usr/local/sbin:$PATH:~/.local/bin:~/.rbenv/bin:~/src/flutter/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
+eval $(/opt/homebrew/bin/brew shellenv)
+
+# Disable Docker constantly asking if we want to scan for vulnerabilities
+export DOCKER_SCAN_SUGGEST=false
 
 ##################### Aliases ####################
 alias v="f -e vim"
@@ -81,35 +85,6 @@ function cat {
 function count_uniq {
   sort | uniq -c | sort -n
 }
-
-##################### NeoVim/Vim ####################
-# Set Vim runtime for Neovim
-
-if [[ -d "/usr/local/share/vim/vim82/" ]]
-then
-	export VIMRUNTIME=/usr/local/share/vim/vim82
-elif [[ -d "/usr/local/share/vim/vim81/" ]]
-then
-	export VIMRUNTIME=/usr/local/share/vim/vim81
-elif [[ -d "/usr/local/share/vim/vim80/" ]]
-then
-	export VIMRUNTIME=/usr/local/share/vim/vim80
-elif [[ -d "/usr/share/vim/vim73/" ]]
-then
-	export VIMRUNTIME=/usr/share/vim/vim73
-elif [[ -d "/usr/share/vim/vim74/" ]]
-then
-	export VIMRUNTIME=/usr/share/vim/vim74
-elif [[ -d "/usr/share/vim/vim80/" ]]
-then
-	export VIMRUNTIME=/usr/share/vim/vim80
-fi
-
-# Use Neovim if available
-if [[ -x "/opt/boxen/homebrew/bin/nvim" ]]
-then
-	alias vim=nvim
-fi
 
 #################### Go ######################
 export GOPATH=~/src/go
