@@ -1,0 +1,2 @@
+*.json diff=json
+config/credentials.yml.enc diff=encrypted
