@@ -20,6 +20,7 @@ prompt = false
 [alias]
 aa = add --all
 d = diff
+dw = diff --word-diff
 dt = difftool
 dc = diff --cached
 c = commit
@@ -37,6 +38,7 @@ conflicts = diff --name-only --diff-filter=U
 [core]
 	excludesfile = ~/.gitignore
 	pager = less -FRXK
+	attributesfile = /Users/adam/.gitattributes
 [rerere]
 	enabled = true
 [commit]
@@ -54,3 +56,7 @@ conflicts = diff --name-only --diff-filter=U
 	defaultBranch = main
 [includeIf "gitdir:~/src/boldpenguin/"]
 	path = ~/src/boldpenguin/.gitconfig_include
+[log]
+	date = iso
+[diff "json"]
+	textconv = jq --sort-keys .
