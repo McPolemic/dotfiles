@@ -60,3 +60,5 @@ conflicts = diff --name-only --diff-filter=U
 	date = iso
 [diff "json"]
 	textconv = jq --sort-keys .
+[merge]
+	conflictstyle = diff3
