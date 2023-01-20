@@ -3,6 +3,9 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect('bundle/{}')
 call pathogen#helptags()
 
+" Add the fzf vim stuff to the runpath
+set rtp+=/opt/homebrew/opt/fzf
+
 "Set default colorscheme
 colo molokai
 
@@ -144,7 +147,7 @@ endfunction
 
 " Find all files in all non-dot directories starting in the working directory.
 " Fuzzy select one of those. Open the selected file with :e.
-nnoremap <leader>f :call FuzzyFindCommand("fd", "", "e")<cr>
+nnoremap <leader>f :Files<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS

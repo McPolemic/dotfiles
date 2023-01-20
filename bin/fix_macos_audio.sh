@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo kill -9 `ps ax|grep 'coreaudio[a-z]' | awk '{print $1}'
+sudo kill -9 $(ps ax | grep 'coreaudio[a-z]' | awk '{print $1}')
