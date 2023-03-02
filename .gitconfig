@@ -4,6 +4,7 @@
 
 [push]
 	default = current
+	autoSetupRemote = true
 
 [diff]
 	tool = vimdiff
@@ -45,8 +46,6 @@ conflicts = diff --name-only --diff-filter=U
 	verbose = true
 [github]
 	user = McPolemic
-[credential]
-	helper = osxkeychain
 [rebase]
 	autoSquash = true
 	autoStash = true
@@ -62,3 +61,5 @@ conflicts = diff --name-only --diff-filter=U
 	textconv = jq --sort-keys .
 [merge]
 	conflictstyle = diff3
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
