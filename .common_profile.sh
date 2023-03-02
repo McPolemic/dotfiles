@@ -4,7 +4,11 @@ export EDITOR=vim
 # Much larger history
 export HISTFILESIZE=1000000
 export PATH=~/bin:~/private_bin:/usr/local/bin:/usr/local/sbin:$PATH:~/.local/bin:~/.rbenv/bin:~/src/flutter/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
-eval $(/opt/homebrew/bin/brew shellenv)
+
+# Enable homebrew if it exists
+if [[ -d "/opt/homebrew/bin" ]]; then
+	eval $(/opt/homebrew/bin/brew shellenv)
+fi
 
 # Disable Docker constantly asking if we want to scan for vulnerabilities
 export DOCKER_SCAN_SUGGEST=false
