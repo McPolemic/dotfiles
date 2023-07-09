@@ -3,7 +3,7 @@
 export EDITOR=vim
 # Much larger history
 export HISTFILESIZE=1000000
-export PATH=~/bin:~/private_bin:/usr/local/bin:/usr/local/sbin:$PATH:~/.local/bin:~/.rbenv/bin:~/src/flutter/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
+export PATH=~/bin:~/private_bin:/opt/homebrew/opt/libpq/bin:$PATH:/usr/local/bin:/usr/local/sbin:~/.local/bin:~/.rbenv/bin:~/src/flutter/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 
 # Enable homebrew if it exists
 if [[ -d "/opt/homebrew/bin" ]]; then
@@ -166,3 +166,6 @@ if ! command -v fd &>/dev/null; then
 		alias fd='fdfind'
 	fi
 fi
+
+# Install shellfish shell integration
+test -e "$HOME/.shellfishrc" && source "$HOME/.shellfishrc"

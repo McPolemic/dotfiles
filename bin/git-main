@@ -2,7 +2,7 @@
 BRANCH=$(git config --local core.defaultBranch)
 
 if [ -z "$BRANCH" ]; then
-  git checkout master
+  git checkout main
 else
   git checkout "$BRANCH"
 fi
