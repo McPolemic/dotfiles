@@ -3,7 +3,7 @@
 export EDITOR=vim
 # Much larger history
 export HISTFILESIZE=1000000
-export PATH=~/bin:~/private_bin:/opt/homebrew/opt/libpq/bin:$PATH:/usr/local/bin:/usr/local/sbin:~/.local/bin:~/.rbenv/bin:~/src/flutter/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
+export PATH=~/bin:~/private_bin:/opt/homebrew/opt/libpq/bin:$PATH:/usr/local/bin:/usr/local/sbin:~/.local/bin:~/.rbenv/bin:~/src/flutter/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:/usr/local/go/bin
 
 # Enable homebrew if it exists
 if [[ -d "/opt/homebrew/bin" ]]; then
