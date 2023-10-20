@@ -1,6 +1,6 @@
 [user]
-	name = Adam Lukens
-	email = adam.lukens@mcpolemic.com
+	name = August Lukens
+	email = august@lukens.co
 
 [push]
 	default = current
@@ -19,20 +19,21 @@
 prompt = false
 
 [alias]
-aa = add --all
-d = diff
-dw = diff --word-diff
-dt = difftool
-dc = diff --cached
-c = commit
-co = checkout
-st = status -sb
-s = status
-lv = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short
-lf = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short --numstat
-root = rev-parse --show-toplevel
-pushf = push --force-with-lease
-conflicts = diff --name-only --diff-filter=U
+	aa = add --all
+	d = diff
+	dw = diff --word-diff
+	dt = difftool
+	dc = diff --cached
+	c = commit
+	co = checkout
+	st = status -sb
+	s = status
+	lv = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short
+	lf = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short --numstat
+	root = rev-parse --show-toplevel
+	pushf = push --force-with-lease
+	conflicts = diff --name-only --diff-filter=U
+	modified = !git status --porcelain | awk '{print $2}'
 
 [mergetool]
 	keepBackup = true
@@ -47,7 +48,7 @@ conflicts = diff --name-only --diff-filter=U
 [github]
 	user = McPolemic
 [rebase]
-	autoSquash = true
+	autosquash = true
 	autoStash = true
 [pull]
 	rebase = true
@@ -63,3 +64,8 @@ conflicts = diff --name-only --diff-filter=U
 	conflictstyle = diff3
 [credential "https://github.com"]
 	helper = !/opt/homebrew/bin/gh auth git-credential
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
