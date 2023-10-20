@@ -1,0 +1,35 @@
+#!/bin/bash
+
+failed_unmounts=0
+
+pkill -x photoanalysisd || true
+pkill -x photolibraryd || true
+
+# Use process substitution to feed each line from find into the while loop
+while IFS= read -r volume; do
+  echo "Attempting to unmount: $volume"
+
+  # Capture the output of the unmount command
+  unmount_output=$(diskutil unmount "$volume" 2>&1)
+
+  # Check the exit status of the unmount command
+  if [ $? -ne 0 ]; then
+    ((failed_unmounts++))
+    echo "Failed to unmount: $volume"
+    echo "Reason: $unmount_output"
+  else
+    echo "Successfully unmounted: $volume"
+  fi
+
+done < <(find /Volumes/* -maxdepth 0 -type d \
+  ! -name "Macintosh HD" \
+  ! -name ".timemachine")
+
+# If there were no failed unmounts, send the "Ready to eject" notification
+if [ "$failed_unmounts" -eq 0 ]; then
+  osascript -e 'display notification "Ready to eject" with title "Eject"'
+  exit 0
+else
+  osascript -e "display notification \"$failed_unmounts volumes failed to eject\" with title \"Eject Failure\""
+  exit 1
+fi
