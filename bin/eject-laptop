@@ -4,6 +4,7 @@ failed_unmounts=0
 
 pkill -x photoanalysisd || true
 pkill -x photolibraryd || true
+pkill -x mediaanalysisd || true
 
 # Use process substitution to feed each line from find into the while loop
 while IFS= read -r volume; do

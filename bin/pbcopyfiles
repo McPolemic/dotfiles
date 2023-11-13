@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Check if any arguments are provided
+if [ "$#" -eq 0 ]; then
+    echo "Usage: $0 <file1> <file2> ..."
+    exit 1
+fi
+
+# Function to process each file
+process_file() {
+    local filename="$1"
+    if [ ! -f "$filename" ]; then
+        echo "$filename does not exist or is not a regular file."
+        return
+    fi
+
+    # Output the filename
+    echo "$filename"
+    echo "\`\`\`"
+    # Output the content of the file
+    cat "$filename"
+    echo "\`\`\`"
+    echo ""
+    echo ""
+}
+
+output=""
+# Process each file
+for file in "$@"; do
+    output="$output$(process_file "$file")"
+done
+
+# Copy the entire output to the clipboard using pbcopy
+echo -e "$output" | pbcopy
