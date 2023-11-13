@@ -6,7 +6,6 @@
 tap 'homebrew/cask'
 
 # Install drivers (for Sonos)
-tap 'homebrew/cask-drivers'
 
 # Fonts
 tap 'homebrew/cask-fonts'
@@ -51,7 +50,6 @@ brew "tmux"
 brew "tree"
 brew "watch"
 brew "wget"
-brew "giflossy"
 
 cask "1password-cli"
 cask "aerial"
@@ -63,7 +61,6 @@ cask "dash"
 cask "discord"
 cask "docker"
 cask "elgato-stream-deck"
-cask "etcher"
 cask "finicky"
 cask "firefox"
 cask "flux"
@@ -79,10 +76,8 @@ cask "nvalt"
 cask "obs"
 cask "obs-virtualcam"
 cask "obsidian"
-cask "osxfuse"
 cask "postman"
 cask "slack"
-cask "soundflower"
 cask "spotify"
 cask "steam"
 cask "sublime-text"
