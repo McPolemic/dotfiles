@@ -1,2 +1,4 @@
 *.json diff=json
+# https://calebhearth.com/git-method-history
+*.rb diff=ruby
 config/credentials.yml.enc diff=encrypted
