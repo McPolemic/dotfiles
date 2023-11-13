@@ -71,6 +71,7 @@ cask "google-chrome"
 cask "hazel"
 cask "iterm2"
 cask "muzzle"
+cask "moom"
 cask "ngrok"
 cask "nvalt"
 cask "obs"
@@ -90,19 +91,11 @@ cask "vlc"
 
 # Mac App Store
 mas "1Password 7", id: 1333542190
-mas "Deliveries", id: 924726344
-mas "Divvy", id: 413857545
 mas "Fantastical 2", id: 975937182
 mas "GrandPerspective", id: 1111570163
-mas "Keynote", id: 409183694
 mas "Marked 2", id: 890031187
 mas "MindNode", id: 992076693
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
 mas "Pixelmator Pro", id: 1289583905
-mas "Screenflow 7", id: 1223627207
 mas "Shush", id: 496437906
 mas "Soulver", id: 413965349
-mas "Things", id: 904280696
-mas "Tweetbot", id: 1384080005
 mas "Spark", id: 1176895641
