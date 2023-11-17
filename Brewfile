@@ -89,7 +89,7 @@ cask "vlc"
 
 # Mac App Store
 mas "1Password 7", id: 1333542190
-mas "Fantastical 2", id: 975937182
+mas "Fantastical", id: 975937182
 mas "GrandPerspective", id: 1111570163
 mas "Marked 2", id: 890031187
 mas "MindNode", id: 992076693
@@ -97,3 +97,4 @@ mas "Pixelmator Pro", id: 1289583905
 mas "Shush", id: 496437906
 mas "Soulver", id: 413965349
 mas "Spark", id: 1176895641
+mas "CARROT Weather", id: 993487541
