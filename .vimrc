@@ -26,8 +26,9 @@ runtime macros/matchit.vim
 filetype plugin indent on
 
 " Set indentation
-"for ruby, autoindent with two spaces, always expand tabs
-autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber,css,vue set ai sw=2 sts=2 et
+" Default indentation is two spaces
+set ai sw=2 sts=2 et
+" Python should use four
 autocmd FileType python set sw=4 sts=4 et
 
 set hlsearch
