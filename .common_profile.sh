@@ -17,6 +17,7 @@ export DOCKER_SCAN_SUGGEST=false
 alias v="f -e vim"
 alias be="bundle exec"
 alias bi="bundle install"
+alias dc="docker compose"
 
 # Small utility to highlight matches while showing the entire output
 alias hl="rg --passthru --colors match:fg:124 --colors match:bg:229"
