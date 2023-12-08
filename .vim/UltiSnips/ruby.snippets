@@ -4,16 +4,6 @@ source "https://rubygems.org"
 gem "$1"
 endsnippet
 
-snippet class
-class $1
-  attr_reader :$2
-
-  def initialize($2)
-    @$2 = $2
-  end
-end
-endsnippet
-
 snippet def
 def $1
 end
@@ -61,4 +51,12 @@ snippet it
 it "$1" do
   ${0:pending}
 end
+endsnippet
+
+snippet pending
+skip "To be implemented"
+endsnippet
+
+snippet skip
+skip "To be implemented"
 endsnippet
