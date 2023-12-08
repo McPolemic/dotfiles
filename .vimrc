@@ -87,8 +87,15 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+"######### Command Aliases #########
 " Map :W to :w because I'm not perfect
 command! W :w
+
+" Remap to older vim-fugitive commands because muscle memory
+:command! Gblame Git blame
+:command! Gcommit Git commit
+:command! Gpull Git pull
+:command! Gpush Git push
 
 " Custom status line display from http://www.winterdom.com/weblog/2007/06/26/VimStatusLine.aspx
 set ls=2 " Always show status line
