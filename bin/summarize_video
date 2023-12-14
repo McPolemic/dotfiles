@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Function to display help information
+help() {
+  echo "Usage: $0 [URL]"
+  echo
+  echo "Download a video from the provided URL, generate a transcript, and summarize it."
+  echo
+  echo "Options:"
+  echo "  -h, --help    Display this help message and exit."
+}
+
+# Check if no arguments were provided or if help was requested
+if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  help
+  exit 0
+fi
+
+# Extract the video ID from the URL
+video_id="$(echo $1 | cut -d'=' -f2)"
+
+
+# Download the video to a standard filename
+yt-dlp $1 -o "${video_id}.mp4"
+
+# Get the transcript
+whisper --model small --output_format txt "${video_id}.mp4"
+
+# Summarize the transcript
+cat "${video_id}.txt" | llm "Summarize the following transcript into markdown headings and bullet points"
+
+# Clean up the downloaded files
+rm -f "${video_id}.mp4" "${video_id}.txt"
