@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+NAME = File.basename($0)
+
+if ARGV[0] == '-h' || ARGV[0] == '--help'
+  puts """
+Usage: #{NAME} [--help]
+
+'#{NAME}' manages directory-specific notes.
+
+How it works:
+1. Run in a directory to open its associated note in $EDITOR.
+2. If none exists, parent directories are checked until reaching $HOME or /.
+3. If still none found, a new note is created for the current directory.
+
+Notes are stored as markdown files in '~/.what_notes' and indexed in '~/.what_notes.yml'.
+
+Options:
+  -h, --help    Display this help message.
+  """
+  exit
+end
+
+# Directory to store markdown notes
+notes_dir = File.expand_path('~/.what_notes')
+Dir.mkdir(notes_dir) unless Dir.exist?(notes_dir)
+
+# YAML file to track directories and their associated markdown filenames
+yaml_file = File.expand_path('~/.what_notes.yml')
+
+# Load existing notes mapping or create a new empty hash if the file doesn't exist
+notes_mapping = File.exist?(yaml_file) ? YAML.load_file(yaml_file) : {}
+
+def find_or_create_note(notes_mapping, path, original_path)
+  return path if notes_mapping.key?(path)
+
+  # Check if we're at the user's home directory
+  if path == ENV['HOME'] || path == "/"
+    return original_path
+  end
+
+  parent_dir = File.dirname(path)
+  find_or_create_note(notes_mapping, parent_dir, original_path)
+end
+
+current_dir = Dir.pwd
+directory_to_edit = find_or_create_note(notes_mapping, current_dir, current_dir)
+
+# If no markdown file exists for the selected directory, create one
+unless notes_mapping[directory_to_edit]
+  unique_filename = "#{Time.now.to_i}.md"
+  notes_mapping[directory_to_edit] = unique_filename
+  File.open(File.join(notes_dir, unique_filename), 'w') do |f|
+    f.write("# Notes for #{directory_to_edit}\n")
+  end
+
+  # Update the YAML file
+  File.open(yaml_file, 'w') { |f| f.write(notes_mapping.to_yaml) }
+end
+
+# Open the associated markdown file in the editor
+markdown_file_path = File.join(notes_dir, notes_mapping[directory_to_edit])
+system("#{ENV['EDITOR']} #{markdown_file_path}")
