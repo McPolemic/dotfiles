@@ -97,6 +97,10 @@ command! W :w
 :command! Gpull Git pull
 :command! Gpush Git push
 
+" Make it a bit easier to work with docker compose
+command! -nargs=+ Dc !docker compose <args>
+command! -nargs=+ Fhdc !docker compose exec web <args>
+
 " Custom status line display from http://www.winterdom.com/weblog/2007/06/26/VimStatusLine.aspx
 set ls=2 " Always show status line
 if has('statusline')
