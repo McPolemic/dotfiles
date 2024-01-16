@@ -1,0 +1,28 @@
+#!/usr/bin/osascript
+
+tell application "System Events"
+    tell process "zoom.us"
+        set frontmost to true
+        tell menu bar 1
+            tell menu bar item "Meeting"
+                tell menu "Meeting"
+                    -- Check for "Start Video"
+                    set startVideoExists to exists (menu item "Start Video")
+                    -- Check for "Stop Video"
+                    set stopVideoExists to exists (menu item "Stop Video")
+
+                    -- Click the appropriate menu item
+                    if stopVideoExists then
+                        click menu item "Stop Video"
+                        return "Video stopped."
+                    else if startVideoExists then
+                        click menu item "Start Video"
+                        return "Video started."
+                    else
+                        return "No video option available."
+                    end if
+                end tell
+            end tell
+        end tell
+    end tell
+end tell

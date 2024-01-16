@@ -1,0 +1,28 @@
+#!/usr/bin/osascript
+
+tell application "System Events"
+    tell process "zoom.us"
+        set frontmost to true
+        tell menu bar 1
+            tell menu bar item "Meeting"
+                tell menu "Meeting"
+                    -- Check for "Unmute Audio"
+                    set startAudioExists to exists (menu item "Unmute Audio")
+                    -- Check for "Mute Audio"
+                    set stopAudioExists to exists (menu item "Mute Audio")
+
+                    -- Click the appropriate menu item
+                    if stopAudioExists then
+                        click menu item "Mute Audio"
+                        return "Audio stopped."
+                    else if startAudioExists then
+                        click menu item "Unmute Audio"
+                        return "Audio started."
+                    else
+                        return "No audio option available."
+                    end if
+                end tell
+            end tell
+        end tell
+    end tell
+end tell
