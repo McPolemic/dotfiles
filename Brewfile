@@ -45,6 +45,7 @@ brew "tmux"
 brew "tree"
 brew "watch"
 brew "wget"
+brew "trash"
 # Using Homebrew's because MacOS's doesn't have Python3 support and Ultisnips
 # gets _very_ angry without it
 brew "vim"
