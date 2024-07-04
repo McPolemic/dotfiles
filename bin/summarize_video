@@ -7,27 +7,65 @@ help() {
   echo "Download a video from the provided URL, generate a transcript, and summarize it."
   echo
   echo "Options:"
+  echo "  -f            Ignore any available subtitles and use whisper to transcribe."
   echo "  -h, --help    Display this help message and exit."
 }
 
 # Check if no arguments were provided or if help was requested
-if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+force_whisper=false
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -f)
+      force_whisper=true
+      ;;
+    -h|--help)
+      help
+      exit 0
+      ;;
+    *)
+      url="$1"
+      ;;
+  esac
+  shift
+done
+
+if [ -z "$url" ]; then
   help
-  exit 0
+  exit 1
 fi
 
-# Extract the video ID from the URL
-video_id="$(echo $1 | cut -d'=' -f2)"
+# Log function
+log() {
+  echo "$1" >&2
+}
 
+# Extract the video ID using yt-dlp
+log "Getting video ID..."
+video_id=$(yt-dlp --get-id "$url" 2>/dev/null)
 
-# Download the video to a standard filename
-yt-dlp $1 -o "${video_id}.mp4"
+# Download the video and subtitles to a standard filename
+log "Downloading video and subtitles..."
+yt-dlp "$url" -o "${video_id}.%(ext)s" --write-subs --sub-lang en >/dev/null 2>&1
 
-# Get the transcript
-whisper --model small --output_format txt "${video_id}.mp4"
+subtitle_file="${video_id}.en.vtt"
+
+# Check if subtitles exist and whether to force the use of whisper
+if [ -f "$subtitle_file" ] && [ "$force_whisper" = false ]; then
+  log "Using existing subtitles..."
+  # Convert VTT subtitles to plain text
+  ffmpeg -i "$subtitle_file" "${video_id}.txt" >/dev/null 2>&1
+else
+  log "Transcribing with whisper..."
+  whisper --model small --output_format txt "${video_id}.mp4" >/dev/null 2>&1
+fi
 
 # Summarize the transcript
-cat "${video_id}.txt" | llm "Summarize the following transcript into markdown headings and bullet points"
+log "Summarizing..."
+summary=$(cat "${video_id}.txt" | llm "Summarize the following transcript into markdown headings and bullet points")
 
 # Clean up the downloaded files
-rm -f "${video_id}.mp4" "${video_id}.txt"
+rm -f "${video_id}.mp4" "${video_id}.txt" "$subtitle_file"
+
+# Output the summary
+echo "$summary"
