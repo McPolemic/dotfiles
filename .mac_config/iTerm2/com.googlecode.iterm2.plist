@@ -2034,6 +2034,7 @@
 	<key>ToolbeltTools</key>
 	<array>
 		<string>Captured Output</string>
+		<string>Codecierge</string>
 	</array>
 	<key>UseBorder</key>
 	<false/>

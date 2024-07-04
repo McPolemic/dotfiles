@@ -150,3 +150,4 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # Load up zmv and aliases
 autoload -Uz zmv
 alias zcp="zmv -C"
+

@@ -215,6 +215,7 @@ function! RunTests(filename)
       exec ":!bin/rails test " . a:filename
     " If we see a spec directory, assume rspec
     elseif filereadable("spec/")
+      exec ":!echo bundle exec rspec --color " . a:filename
       exec ":!bundle exec rspec --color " . a:filename
       " If we see elixir-looking tests, assume they're run with mix
     elseif strlen(glob("test/**/*.exs") . glob("tests/**/*.exs"))
@@ -224,6 +225,7 @@ function! RunTests(filename)
       exec "!nosetests " . a:filename
       " Fall back to a normal blocking test run
     else
+      exec ":!echo rspec --color " . a:filename
       exec ":!rspec --color " . a:filename
     end
   end
