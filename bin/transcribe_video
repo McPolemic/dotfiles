@@ -1,0 +1,90 @@
+#!/bin/sh
+
+# Function to display help information
+help() {
+  echo "Usage: $0 [URL]"
+  echo
+  echo "Download a video from the provided URL and generate a transcript."
+  echo
+  echo "Options:"
+  echo "  -f            Ignore any available subtitles and use whisper to transcribe."
+  echo "  -h, --help    Display this help message and exit."
+}
+
+# Check if no arguments were provided or if help was requested
+force_whisper=false
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -f)
+      force_whisper=true
+      ;;
+    -h|--help)
+      help
+      exit 0
+      ;;
+    *)
+      url="$1"
+      ;;
+  esac
+  shift
+done
+
+if [ -z "$url" ]; then
+  help
+  exit 1
+fi
+
+# Log function
+log() {
+  echo "$1" >&2
+}
+
+# Extract the video ID using yt-dlp
+log "Getting video ID..."
+video_id=$(yt-dlp --get-id "$url" 2>yt-dlp_error.log)
+if [ -z "$video_id" ]; then
+  log "Failed to extract video ID."
+  log "Check yt-dlp_error.log for details."
+  exit 1
+fi
+log "Video ID: $video_id"
+
+# Download the video and subtitles to a standard filename
+log "Downloading video and subtitles..."
+yt-dlp "$url" -o "${video_id}.%(ext)s" --write-subs --quiet 2>>yt-dlp_error.log
+if [ $? -ne 0 ]; then
+  log "Failed to download video or subtitles."
+  log "Check yt-dlp_error.log for details."
+  exit 1
+fi
+
+subtitle_file="${video_id}.vtt"
+video_file="${video_id}.mp4"
+
+# If multiple VTT subtitle files exist, rename them to "${video_id}.vtt"
+for file in ${video_id}*.vtt; do
+  if [ "$file" != "$subtitle_file" ]; then
+    mv "$file" "$subtitle_file"
+    break
+  fi
+done
+
+# Check if subtitles exist and whether to force the use of whisper
+if [ -f "$subtitle_file" ] && [ "$force_whisper" = false ]; then
+  log "Using existing subtitles..."
+  log "Extracting plain text from VTT file..."
+  awk '/-->/{getline; print}' "$subtitle_file"
+  if [ $? -ne 0 ]; then
+    log "Failed to extract subtitles from $subtitle_file"
+    exit 1
+  fi
+else
+  log "Transcribing with whisper..."
+  log "Transcribing video file..."
+  whisper --model small --output_format txt "$video_file" >/dev/null 2>&1
+  log "Transcription complete"
+fi
+
+# Clean up the downloaded files
+rm -f "$video_file" "$subtitle_file" yt-dlp_error.log
