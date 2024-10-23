@@ -6,7 +6,6 @@
 brew "ack"
 brew "bat"
 brew "coreutils"
-brew "docker"
 brew "dos2unix"
 brew "fasd"
 brew "fd"
