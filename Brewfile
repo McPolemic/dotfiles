@@ -2,9 +2,6 @@
 # Run `brew tap homebrew/bundle` to brew `brew bundle`
 # Run `brew bundle` to brew the list below
 
-# Fonts
-tap 'homebrew/cask-fonts'
-
 ## CLI Tools
 brew "ack"
 brew "bat"
