@@ -1,3 +1,4 @@
 -f mp4
-
+-o "%(id)s.%(ext)s"
 --write-subs
+--write-info-json
