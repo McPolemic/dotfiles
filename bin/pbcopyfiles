@@ -15,9 +15,10 @@ process_file() {
     fi
 
     # Output the filename
+    echo ""
+    echo ""
     echo "$filename"
     echo "\`\`\`"
-    # Output the content of the file
     cat "$filename"
     echo "\`\`\`"
     echo ""
@@ -30,5 +31,11 @@ for file in "$@"; do
     output="$output$(process_file "$file")"
 done
 
-# Copy the entire output to the clipboard using pbcopy
-echo -e "$output" | pbcopy
+# Copy the entire output to the clipboard using pbcopy (if we have it)
+if command -v pbcopy &> /dev/null; then
+    # Copy the entire output to the clipboard using pbcopy
+    echo -e "$output" | pbcopy
+else
+    # Output the result to stdout
+    echo -e "$output"
+fi
