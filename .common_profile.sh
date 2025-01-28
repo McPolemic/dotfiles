@@ -134,6 +134,12 @@ then
     source ~/.bp_profile
 fi
 
+############# Rust/Cargo #################
+if [ -e ~/.cargo/env ]
+then
+    source ~/.cargo/env
+fi
+
 ##################### Miscellaneous ####################
 eval "$(fasd --init auto)"
 
