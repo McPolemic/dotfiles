@@ -58,3 +58,6 @@
 [submodule ".vim/bundle/vim-copilot"]
 	path = .vim/bundle/vim-copilot
 	url = https://github.com/github/copilot.vim.git
+[submodule ".vim/bundle/fzf"]
+	path = .vim/bundle/fzf
+	url = git@github.com:junegunn/fzf
