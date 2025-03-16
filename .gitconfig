@@ -63,7 +63,7 @@ prompt = false
 [merge]
 	conflictstyle = diff3
 [credential "https://github.com"]
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = !gh auth git-credential
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
