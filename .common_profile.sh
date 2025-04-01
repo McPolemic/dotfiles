@@ -181,6 +181,3 @@ fi
 
 # Install shellfish shell integration
 test -e "$HOME/.shellfishrc" && source "$HOME/.shellfishrc"
-
-# Install shell functions for broot (better `tree`)
-source "$HOME/.config/broot/launcher/bash/br"
