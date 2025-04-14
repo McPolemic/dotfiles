@@ -108,7 +108,7 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 if [[ -d "$HOME/.asdf" ]]; then
 	source $HOME/.asdf/asdf.sh
 	if [ -n "$BASH_VERSION" ]; then
-		source $HOME/.asdf/completions/asdf.bash
+		source $HOME/.asdf/asdf.sh
 	elif [ -n "$ZSH_VERSION" ]; then
 		# https://github.com/asdf-vm/asdf/issues/68#issuecomment-624231622
 		fpath=(${ASDF_DIR}/completions $fpath)
