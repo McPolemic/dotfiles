@@ -7,14 +7,16 @@ call pathogen#helptags()
 set rtp+=/opt/homebrew/opt/fzf
 
 "Set default colorscheme
+set termguicolors
+syntax on
 colo molokai
+redraw!
 
 "81 column marker to know when we're running over 80 characters
 set colorcolumn=81
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-syntax on
 
 " Ruby support for % jumping on module, class, def, do, and end
 runtime macros/matchit.vim

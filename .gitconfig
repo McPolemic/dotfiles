@@ -56,6 +56,8 @@ prompt = false
 	defaultBranch = main
 [includeIf "gitdir:~/src/boldpenguin/"]
 	path = ~/src/boldpenguin/.gitconfig_include
+[includeIf "gitdir:~/src/crowdstreet/"]
+	path = ~/src/crowdstreet/.gitconfig_include
 [log]
 	date = iso
 [diff "json"]

@@ -24,6 +24,10 @@ alias dce="docker compose exec"
 # Small utility to highlight matches while showing the entire output
 alias hl="rg --passthru --colors match:fg:124 --colors match:bg:229"
 
+# .Net and Jetbrains Rider stuff
+alias dotnet="/opt/homebrew/opt/dotnet@8/bin/dotnet"
+export PATH="$PATH:~/.dotnet/tools"
+
 ##################### Functions ####################
 # Edit the current clipboard in vim
 function edit_clipboard {
