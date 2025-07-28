@@ -45,7 +45,7 @@ function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
 function fuzzy_find() {
     local command="$1"
 
-    echo "$(eval $command | fzf --height=20)"
+    echo "$(eval $command | fzf -i --height=20)"
 }
 
 # Select from a list of files already added/modified/deleted from Git
