@@ -37,6 +37,7 @@ prompt = false
 
 [mergetool]
 	keepBackup = true
+	prompt = false
 [core]
 	excludesfile = ~/.gitignore
 	pager = less -FRXK
@@ -64,6 +65,7 @@ prompt = false
 	textconv = jq --sort-keys .
 [merge]
 	conflictstyle = diff3
+	tool = vimdiff
 [credential "https://github.com"]
 	helper = !gh auth git-credential
 [filter "lfs"]
