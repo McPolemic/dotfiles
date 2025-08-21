@@ -138,13 +138,22 @@ def main():
         end_time = None
 
     x, y = 10, 10
+    last_set_position = None
 
     while True:
         if end_time is not None and time.time() >= end_time:
             print(f"Timeout of {args.timeout} reached; exiting.")
             break
 
+        # Check if cursor has moved from the last position we set
+        if last_set_position is not None:
+            current_position = pyautogui.position()
+            if current_position != last_set_position:
+                print(f"Cursor moved from last set position {last_set_position} to {current_position}; exiting.")
+                break
+
         pyautogui.moveTo(x, y)
+        last_set_position = (x, y)
         timestamp = time.strftime("%I:%M:%S %p", time.localtime())
         print(f"Moved at {timestamp} ({x}, {y})")
 
