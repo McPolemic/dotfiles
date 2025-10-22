@@ -13,6 +13,7 @@ import time
 import random
 import sys
 import re
+import subprocess
 from datetime import datetime, timedelta
 
 SLEEP_TIME_IN_SECONDS = 10
@@ -105,6 +106,91 @@ def format_duration(seconds):
 
     return ''.join(parts) if parts else '0s'
 
+def get_apps_with_badges():
+    """Check for applications with badge notifications in the dock."""
+    applescript = '''
+    tell application "System Events"
+        tell application process "Dock"
+            set badgedApps to {}
+            try
+                set dockItems to every UI element of list 1
+                repeat with dockItem in dockItems
+                    try
+                        set badgeValue to value of attribute "AXStatusLabel" of dockItem
+                        if badgeValue is not missing value and badgeValue is not "" then
+                            set appName to name of dockItem
+                            set end of badgedApps to appName & ": " & badgeValue
+                        end if
+                    end try
+                end repeat
+            end try
+            set AppleScript's text item delimiters to "|"
+            set badgedAppsText to badgedApps as text
+            set AppleScript's text item delimiters to ""
+            return badgedAppsText
+        end tell
+    end tell
+    '''
+
+    try:
+        result = subprocess.run(
+            ['osascript', '-e', applescript],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            apps = result.stdout.strip().split('|')
+            return [app for app in apps if app]
+        return []
+    except Exception:
+        return []
+
+def is_handoff_badge(badge_text):
+    """Check if badge is a handoff notification (com.apple.device identifiers)."""
+    if not badge_text:
+        return False
+    badge_value = badge_text.split(': ', 1)[-1] if ': ' in badge_text else badge_text
+    return badge_value.startswith('com.apple')
+
+def should_filter_badge(badge_text):
+    """Check if badge should be filtered (handoff or Messages)."""
+    if not badge_text:
+        return True
+
+    if is_handoff_badge(badge_text):
+        return True
+
+    app_name = badge_text.split(': ', 1)[0] if ': ' in badge_text else ''
+
+    if app_name == 'Messages':
+        return True
+
+    if app_name == 'Spark':
+        return True
+
+    return False
+
+def notify_badges(apps_with_badges):
+    """Send notification about badge updates using pushover."""
+    if not apps_with_badges:
+        return
+
+    filtered_badges = [badge for badge in apps_with_badges if not should_filter_badge(badge)]
+
+    if not filtered_badges:
+        return
+
+    message = "Badge notifications: " + ", ".join(filtered_badges)
+
+    try:
+        subprocess.run(
+            ['/Users/adam/src/go/bin/pushover', '-title', 'Dock Badge Alert', '-message', message],
+            timeout=10
+        )
+    except Exception as e:
+        print(f"Failed to send pushover notification: {e}", file=sys.stderr)
+
 def main():
     parser = argparse.ArgumentParser(
         description="Move mouse in a loop; optional timeout like coreutils timeout."
@@ -139,6 +225,7 @@ def main():
 
     x, y = 10, 10
     last_set_position = None
+    last_known_badges = set()
 
     while True:
         if end_time is not None and time.time() >= end_time:
@@ -158,6 +245,18 @@ def main():
         print(f"Moved at {timestamp} ({x}, {y})")
 
         time.sleep(SLEEP_TIME_IN_SECONDS)
+
+        apps_with_badges = get_apps_with_badges()
+        current_badges = set(apps_with_badges)
+
+        new_badges = current_badges - last_known_badges
+        if new_badges:
+            notify_badges(list(new_badges))
+            timestamp = time.strftime("%I:%M:%S %p", time.localtime())
+            print(f"New badges detected at {timestamp}: {', '.join(new_badges)}")
+
+        last_known_badges = current_badges
+
         x = (x + X_DELTA) % X_MAX
         y = (y + Y_DELTA) % Y_MAX
 
