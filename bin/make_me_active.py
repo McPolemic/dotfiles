@@ -21,6 +21,7 @@ X_DELTA = 13
 Y_DELTA = 27
 X_MAX = 800
 Y_MAX = 400
+FILTERED_BADGE_APPS = {'Messages', 'Reminders', 'Spark'}
 
 def parse_timespan(time_str):
     """Parse time strings like '1h30m', '45s', '2h15m30s' into seconds."""
@@ -154,7 +155,6 @@ def is_handoff_badge(badge_text):
     return badge_value.startswith('com.apple')
 
 def should_filter_badge(badge_text):
-    """Check if badge should be filtered (handoff or Messages)."""
     if not badge_text:
         return True
 
@@ -163,13 +163,15 @@ def should_filter_badge(badge_text):
 
     app_name = badge_text.split(': ', 1)[0] if ': ' in badge_text else ''
 
-    if app_name == 'Messages':
-        return True
-
-    if app_name == 'Spark':
+    if app_name in FILTERED_BADGE_APPS:
         return True
 
     return False
+
+def get_filtered_badges():
+    """Return the set of badges that should trigger notifications."""
+    apps_with_badges = get_apps_with_badges()
+    return {badge for badge in apps_with_badges if not should_filter_badge(badge)}
 
 def notify_badges(apps_with_badges):
     """Send notification about badge updates using pushover."""
@@ -225,7 +227,7 @@ def main():
 
     x, y = 10, 10
     last_set_position = None
-    last_known_badges = set()
+    last_known_badges = get_filtered_badges()
 
     while True:
         if end_time is not None and time.time() >= end_time:
@@ -246,9 +248,7 @@ def main():
 
         time.sleep(SLEEP_TIME_IN_SECONDS)
 
-        apps_with_badges = get_apps_with_badges()
-        current_badges = set(apps_with_badges)
-
+        current_badges = get_filtered_badges()
         new_badges = current_badges - last_known_badges
         if new_badges:
             notify_badges(list(new_badges))
