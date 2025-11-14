@@ -1,0 +1,43 @@
+#!/usr/bin/env swift
+import CoreGraphics
+import AppKit
+import Foundation
+
+// 1. Determine the frontmost app
+guard let frontApp = NSWorkspace.shared.frontmostApplication else {
+    // No frontmost app → no window
+    exit(1)
+}
+
+let frontPID = frontApp.processIdentifier
+
+// 2. Fetch list of on-screen windows
+let options: CGWindowListOption = [.optionOnScreenOnly, .excludeDesktopElements]
+guard let windowInfoList = CGWindowListCopyWindowInfo(options, kCGNullWindowID) as? [[String: Any]] else {
+    exit(1)
+}
+
+// 3. Look for a window owned by the focused app
+for windowInfo in windowInfoList {
+    guard let ownerPID = windowInfo[kCGWindowOwnerPID as String] as? pid_t,
+          ownerPID == frontPID else { continue }
+
+    // Only normal layer-0 windows
+    guard let layer = windowInfo[kCGWindowLayer as String] as? Int,
+          layer == 0 else { continue }
+
+    // Must be visible
+    if let alpha = windowInfo[kCGWindowAlpha as String] as? Double,
+       alpha <= 0 {
+        continue
+    }
+
+    // Found the active window!
+    if let windowNumber = windowInfo[kCGWindowNumber as String] as? Int {
+        print(windowNumber)
+        exit(0)
+    }
+}
+
+// 4. No usable windows for this app
+exit(1)
