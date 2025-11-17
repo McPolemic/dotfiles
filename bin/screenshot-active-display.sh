@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-display_id=$(active-display-id)
+cd "${0:A:h}"
+
+display_id=$(./active-display-id)
 if [[ -z "$display_id" ]]; then
   echo "Could not determine active display id" >&2
   exit 1

@@ -1,6 +1,9 @@
 #!/bin/zsh
+source ~/.common_profile.sh
 
-window_id=$(active-window-id)
+cd "${0:A:h}"
+
+window_id=$(./active-window-id)
 if [[ -z "$window_id" ]]; then
   echo "Could not determine active window id" >&2
   exit 1
