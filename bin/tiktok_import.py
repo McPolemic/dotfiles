@@ -84,27 +84,33 @@ def load_into_database(video_id, url, video_path, output_dir, db):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Download and process TikTok videos.')
     parser.add_argument('urls', nargs='*', help='The TikTok URLs to process.')
-    parser.add_argument('-f', '--file', help='Path to a user_data_tiktok.json file to extract liked video URLs from.')
+    parser.add_argument('-f', '--file', nargs='+', help='Path(s) to user_data_tiktok.json files to extract liked video URLs and conversations from.')
     parser.add_argument('-n', '--dry-run', action='store_true', help='List what would be done without downloading or modifying anything.')
+    parser.add_argument('--no-download', action='store_true', help='Skip downloading videos, only import already downloaded files.')
+    parser.add_argument('--no-transcribe', action='store_true', help='Skip whisper transcription.')
     args = parser.parse_args()
 
     urls = list(args.urls)
     if args.file:
-        with open(args.file) as f:
-            data = json.load(f)
-        # TikTok's export format has changed over time, so we check multiple paths
-        likes = find_key(data,
-            ["Likes and Favorites", "Like List", "ItemFavoriteList"],
-            ["Your Activity", "Like List", "ItemFavoriteList"],
-            ["Activity", "Like List", "ItemFavoriteList"],
-        )
-        for item in likes:
-            link = item.get("Link") or item.get("link")
-            if link:
-                urls.append(link)
+        for file_path in args.file:
+            print(f"Reading {file_path}...")
+            with open(file_path) as f:
+                data = json.load(f)
+            # TikTok's export format has changed over time, so we check multiple paths
+            likes = find_key(data,
+                ["Likes and Favorites", "Like List", "ItemFavoriteList"],
+                ["Your Activity", "Like List", "ItemFavoriteList"],
+                ["Activity", "Like List", "ItemFavoriteList"],
+            )
+            for item in likes:
+                link = item.get("Link") or item.get("link")
+                if link:
+                    urls.append(link)
 
     os.makedirs(VIDEO_DIR, exist_ok=True)
     db = sqlite_utils.Database(DB_PATH)
+    db.execute("PRAGMA journal_mode=WAL")
+    db.execute("PRAGMA synchronous=NORMAL")
 
     db['videos'].create({
         "video_id": str,
@@ -153,64 +159,100 @@ if __name__ == '__main__':
                 db['messages'].insert_all(rows, pk=('conversation_id', 'date', 'from_user'), replace=True)
                 print(f"Imported {len(rows)} messages from {key.strip(':')}")
 
-        dm_chats = find_key(data,
-            ["Direct Message", "Direct Messages", "ChatHistory"],
-            ["Direct Messages", "Chat History", "ChatHistory"],
-        ) or {}
-        import_chats(dm_chats, "dm")
-        group_chats = find_key(data,
-            ["Direct Message", "Group Chat", "GroupChat"],
-        ) or {}
-        import_chats(group_chats, "group")
+        for file_path in args.file:
+            with open(file_path) as f:
+                data = json.load(f)
+            dm_chats = find_key(data,
+                ["Direct Message", "Direct Messages", "ChatHistory"],
+                ["Direct Messages", "Chat History", "ChatHistory"],
+            ) or {}
+            import_chats(dm_chats, "dm")
+            group_chats = find_key(data,
+                ["Direct Message", "Group Chat", "GroupChat"],
+            ) or {}
+            import_chats(group_chats, "group")
 
     if not urls and not args.file:
         parser.error("No URLs provided. Pass URLs as arguments or use -f with a JSON file.")
 
+    existing_videos = {row[0] for row in db.execute("SELECT video_id FROM videos").fetchall()}
+    local_files = {f[:-4] for f in os.listdir(VIDEO_DIR) if f.endswith('.mp4')}
+    print(f"Found {len(existing_videos)} videos in database, {len(local_files)} files on disk.")
+
     # Filter to only new videos
     new_videos = []
-    for url in urls:
-        video_id = extract_video_id(url)
-        if db['videos'].count_where("video_id = ?", [video_id]) > 0:
-            print(f"Skipping {url} (already in database)")
+    total = len(urls)
+    for i, url in enumerate(urls, 1):
+        if args.no_download:
+            video_id = video_id_from_content(url)
+            if not video_id:
+                continue
+        else:
+            video_id = extract_video_id(url)
+        if video_id in existing_videos:
             continue
+        existing_videos.add(video_id)
         new_videos.append((video_id, url))
+        if i % 500 == 0:
+            print(f"  Checked {i}/{total} URLs...")
 
     if not new_videos:
         if urls:
             print("All videos already in database.")
         exit()
 
-    # Phase 1: Download all new videos
-    urls_to_download = [url for vid, url in new_videos
-                        if not os.path.exists(os.path.join(VIDEO_DIR, f'{vid}.mp4'))]
+    print(f"Found {len(new_videos)} new videos to process.")
+
     if args.dry_run:
         for video_id, url in new_videos:
-            video_path = os.path.join(VIDEO_DIR, f'{video_id}.mp4')
-            srt_path = os.path.join(VIDEO_DIR, f'{video_id}.en.srt')
-            if os.path.exists(video_path):
-                print(f"  Would skip download (file exists): {video_path}")
+            if args.no_download:
+                if video_id in local_files:
+                    print(f"  Already downloaded: {video_id}.mp4")
+                else:
+                    print(f"  Not downloaded, skipping: {video_id}")
             else:
-                print(f"  Would download: {video_path}")
-            if os.path.exists(srt_path):
-                print(f"  Would skip transcription (file exists): {srt_path}")
-            else:
-                print(f"  Would transcribe: {srt_path}")
+                if video_id in local_files:
+                    print(f"  Would skip download (file exists): {video_id}.mp4")
+                else:
+                    print(f"  Would download: {video_id}.mp4")
+            if not args.no_transcribe:
+                srt_path = os.path.join(VIDEO_DIR, f'{video_id}.en.srt')
+                if os.path.exists(srt_path):
+                    print(f"  Would skip transcription (file exists): {srt_path}")
+                else:
+                    print(f"  Would transcribe: {srt_path}")
             print(f"  Would insert into database: {video_id}")
         exit()
 
-    if urls_to_download:
-        print(f"Downloading {len(urls_to_download)} videos...")
-        subprocess.run(['yt-dlp', '--output', os.path.join(VIDEO_DIR, '%(id)s.%(ext)s'),
-                        '--write-info-json', *urls_to_download])
+    # Phase 1: Download
+    if not args.no_download:
+        urls_to_download = [url for vid, url in new_videos
+                            if vid not in local_files]
+        if urls_to_download:
+            print(f"Downloading {len(urls_to_download)} videos...")
+            subprocess.run(['yt-dlp', '--output', os.path.join(VIDEO_DIR, '%(id)s.%(ext)s'),
+                            '--write-info-json', *urls_to_download])
 
     # Phase 2: Transcribe
-    for video_id, url in new_videos:
-        if db['transcripts'].count_where("video_id = ?", [video_id]) > 0:
-            print(f"Skipping transcription for {video_id} (already in database)")
-        else:
+    if not args.no_transcribe:
+        for video_id, url in new_videos:
+            if db['transcripts'].count_where("video_id = ?", [video_id]) > 0:
+                print(f"Skipping transcription for {video_id} (already in database)")
+                continue
             extract_subtitles(video_id, VIDEO_DIR)
 
     # Phase 3: Insert into database
+    imported = 0
+    skipped = 0
     for video_id, url in new_videos:
+        if video_id not in local_files:
+            skipped += 1
+            continue
         video_path = os.path.join(VIDEO_DIR, f'{video_id}.mp4')
         load_into_database(video_id, url, video_path, VIDEO_DIR, db)
+        imported += 1
+        if imported % 100 == 0:
+            print(f"  Inserted {imported} so far...")
+    print(f"Imported {imported} videos into database ({skipped} not on disk)")
+
+    db.execute("PRAGMA wal_checkpoint(TRUNCATE)")
