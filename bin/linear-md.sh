@@ -26,6 +26,15 @@ query Issue {
         metadata
       }
     }
+    comments(orderBy: createdAt) {
+      nodes {
+        body
+        createdAt
+        user {
+          name
+        }
+      }
+    }
   }
 }
 EOF
@@ -46,9 +55,15 @@ desc=$(jq -r '.data.issue.description'       <<<"$response")
 
 # Build the PR list (only github attachments)
 pr_list=$(jq -r '
-  .data.issue.attachments.nodes[]
+  (.data.issue.attachments.nodes // [])[]
   | select(.sourceType=="github" and .metadata.status != "closed")
   | "  * [\(.metadata.title)](\(.metadata.url))"
+' <<<"$response")
+
+# Build the comments list
+comments=$(jq -r '
+  (.data.issue.comments.nodes // [])[]
+  | "### \(.user.name) (\(.createdAt | split("T")[0]))\n\(.body)\n"
 ' <<<"$response")
 
 # Emit the Markdown
@@ -62,6 +77,9 @@ $pr_list
 # Description
 $desc
 
+# Comments
+$comments
+
 # Notes
 
 
@@ -70,8 +88,4 @@ $desc
 
 
 
-# To Do
-- [ ] Understand the ticket
-- [ ] Add testing
-- [ ] Add screenshots
 EOF
