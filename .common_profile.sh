@@ -20,6 +20,8 @@ alias be="bundle exec"
 alias bi="bundle install"
 alias dc="docker compose"
 alias dce="docker compose exec"
+alias ta="tmux attach"
+alias tc="tmux-choose"
 
 # Small utility to highlight matches while showing the entire output
 alias hl="rg --passthru --colors match:fg:124 --colors match:bg:229"
