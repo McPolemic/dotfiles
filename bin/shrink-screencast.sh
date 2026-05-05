@@ -39,4 +39,15 @@ for input in "$@"; do
   fi
 
   ffmpeg -i "$input" -r 2 "$output"
+
+  read -r -p "Delete original \"$input\"? [y/N] " reply
+  case "$reply" in
+    [yY]|[yY][eE][sS])
+      rm -- "$input"
+      echo "Deleted: $input"
+      ;;
+    *)
+      echo "Kept: $input"
+      ;;
+  esac
 done
