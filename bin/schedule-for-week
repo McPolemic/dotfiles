@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+Usage: schedule-for-week [YYYY-MM-DD] [--obsidian-url]
+
+Print your schedule for a whole week as markdown, one section per day,
+by calling schedule-for-day for each day. The week runs Sunday through
+Saturday and contains the given date. Defaults to the current week.
+
+Arguments:
+  YYYY-MM-DD       ISO 8601 date within the desired week. Defaults to today.
+
+Options:
+  --obsidian-url   Emit JSON instead of markdown: an array of {date, events}
+                   objects, where each event includes a notesUrl that
+                   creates/opens a note for it in the Obsidian vault.
+  -h, --help       Show this help and exit.
+EOF
+}
+
+obsidian_url=false
+date_arg=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help) usage; exit 0 ;;
+    --obsidian-url) obsidian_url=true; shift ;;
+    -*) echo "Error: unknown option '$1'" >&2; usage; exit 1 ;;
+    *)
+      if [[ -n "$date_arg" ]]; then
+        echo "Error: unexpected argument '$1'" >&2; usage; exit 1
+      fi
+      date_arg="$1"; shift ;;
+  esac
+done
+
+date_arg="${date_arg:-$(date +%Y-%m-%d)}"
+
+if ! [[ "$date_arg" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || ! date -j -f "%Y-%m-%d" "$date_arg" +%s >/dev/null 2>&1; then
+  echo "Error: '$date_arg' is not a valid ISO 8601 date (YYYY-MM-DD)" >&2
+  exit 1
+fi
+
+schedule_for_day="$(dirname "$0")/schedule-for-day"
+
+# Walk back to Sunday (%w: 0=Sunday .. 6=Saturday), then forward 7 days.
+weekday="$(date -j -f "%Y-%m-%d" "$date_arg" +%w)"
+sunday="$(date -j -v-"${weekday}"d -f "%Y-%m-%d" "$date_arg" +%Y-%m-%d)"
+
+saturday="$(date -j -v+6d -f "%Y-%m-%d" "$sunday" +%Y-%m-%d)"
+
+if [[ "$obsidian_url" == true ]]; then
+  # Wrap each day's JSON event array in a {date, events} object. The day's
+  # output is already valid JSON, so it can be embedded verbatim.
+  printf '['
+  for i in 0 1 2 3 4 5 6; do
+    day="$(date -j -v+"${i}"d -f "%Y-%m-%d" "$sunday" +%Y-%m-%d)"
+    events="$("$schedule_for_day" "$day" --obsidian-url)"
+    [[ "$i" -eq 0 ]] || printf ','
+    printf '{"date":"%s","events":%s}' "$day" "$events"
+  done
+  printf ']\n'
+  exit 0
+fi
+
+echo "# Week of $sunday – $saturday"
+echo
+
+for i in 0 1 2 3 4 5 6; do
+  day="$(date -j -v+"${i}"d -f "%Y-%m-%d" "$sunday" +%Y-%m-%d)"
+  "$schedule_for_day" "$day"
+  echo
+done

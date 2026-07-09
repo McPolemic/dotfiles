@@ -1,0 +1,185 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+Usage: schedule-for-day [YYYY-MM-DD] [--obsidian-url]
+
+Print your schedule for a single day as markdown. Defaults to today.
+Events are read from the macOS calendar accounts (the same canonical
+source Fantastical shows) via EventKit, de-duplicated across accounts.
+
+The first run compiles a small Swift helper and may prompt for
+Calendar access; subsequent runs use the cached binary.
+
+Arguments:
+  YYYY-MM-DD       ISO 8601 date. Defaults to today.
+
+Options:
+  --obsidian-url   Emit a JSON array of event objects instead of markdown.
+                   Each object includes a notesUrl that creates/opens a
+                   note for the event in the Obsidian vault.
+  -h, --help       Show this help and exit.
+EOF
+}
+
+# Obsidian vault used for the notesUrl in --obsidian-url mode.
+vault="McPolemic"
+
+obsidian_url=false
+date_arg=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help) usage; exit 0 ;;
+    --obsidian-url) obsidian_url=true; shift ;;
+    -*) echo "Error: unknown option '$1'" >&2; usage; exit 1 ;;
+    *)
+      if [[ -n "$date_arg" ]]; then
+        echo "Error: unexpected argument '$1'" >&2; usage; exit 1
+      fi
+      date_arg="$1"; shift ;;
+  esac
+done
+
+date_arg="${date_arg:-$(date +%Y-%m-%d)}"
+
+if ! [[ "$date_arg" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || ! date -j -f "%Y-%m-%d" "$date_arg" +%s >/dev/null 2>&1; then
+  echo "Error: '$date_arg' is not a valid ISO 8601 date (YYYY-MM-DD)" >&2
+  exit 1
+fi
+
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/schedule"
+helper_src="$cache_dir/schedule_events.swift"
+helper_bin="$cache_dir/schedule_events"
+
+mkdir -p "$cache_dir"
+
+# Swift/EventKit helper. Emits markdown for the day passed as argv[1].
+cat > "$helper_src.tmp" <<'SWIFT'
+import EventKit
+import Foundation
+
+guard CommandLine.arguments.count > 1,
+      let day = { () -> Date? in
+          let df = DateFormatter()
+          df.dateFormat = "yyyy-MM-dd"
+          df.timeZone = TimeZone.current
+          return df.date(from: CommandLine.arguments[1])
+      }() else {
+    FileHandle.standardError.write("expected a YYYY-MM-DD argument\n".data(using: .utf8)!)
+    exit(2)
+}
+
+// When a vault name is passed as the second argument, emit JSON (one object
+// per event, each with an Obsidian notesUrl) instead of markdown.
+let vault: String? = CommandLine.arguments.count > 2 ? CommandLine.arguments[2] : nil
+
+let cal = Calendar.current
+let start = cal.startOfDay(for: day)
+let end = cal.date(byAdding: .day, value: 1, to: start)!
+
+let headerFmt = DateFormatter()
+headerFmt.dateFormat = "EEE yyyy-MM-dd"
+headerFmt.timeZone = TimeZone.current
+let timeFmt = DateFormatter()
+timeFmt.dateFormat = "HH:mm"
+timeFmt.timeZone = TimeZone.current
+let iso = ISO8601DateFormatter()
+iso.timeZone = TimeZone.current
+let dateFmt = DateFormatter()
+dateFmt.dateFormat = "yyyy-MM-dd"
+dateFmt.timeZone = TimeZone.current
+
+@Sendable func encodeURLComponent(_ s: String) -> String {
+    var allowed = CharacterSet.alphanumerics
+    allowed.insert(charactersIn: "-._~")
+    return s.addingPercentEncoding(withAllowedCharacters: allowed) ?? s
+}
+
+// obsidian://new opens the named note, creating it if it doesn't exist yet.
+@Sendable func obsidianURL(name: String, vault: String) -> String {
+    "obsidian://new?vault=\(encodeURLComponent(vault))&name=\(encodeURLComponent(name))"
+}
+
+let store = EKEventStore()
+let sem = DispatchSemaphore(value: 0)
+
+store.requestFullAccessToEvents { granted, error in
+    defer { sem.signal() }
+    guard granted else {
+        FileHandle.standardError.write("Calendar access denied: \(error?.localizedDescription ?? "unknown")\n".data(using: .utf8)!)
+        exit(3)
+    }
+    let pred = store.predicateForEvents(withStart: start, end: end, calendars: nil)
+    let events = store.events(matching: pred)
+
+    // De-duplicate events that appear in multiple subscribed accounts.
+    var seen = Set<String>()
+    let unique = events.filter { e in
+        let key = "\(e.isAllDay)|\(e.startDate.timeIntervalSince1970)|\(e.endDate.timeIntervalSince1970)|\(e.title ?? "")"
+        return seen.insert(key).inserted
+    }
+
+    let allDay = unique.filter { $0.isAllDay }
+        .sorted { ($0.title ?? "") < ($1.title ?? "") }
+    let timed = unique.filter { !$0.isAllDay }
+        .sorted { $0.startDate < $1.startDate }
+
+    if let vault = vault {
+        func dict(_ e: EKEvent) -> [String: Any] {
+            let title = e.title ?? "(no title)"
+            let noteName = "\(dateFmt.string(from: e.startDate)) \(title)"
+            return [
+                "title": title,
+                "allDay": e.isAllDay,
+                "start": iso.string(from: e.startDate),
+                "end": iso.string(from: e.endDate),
+                "location": (e.location?.isEmpty == false) ? e.location! : NSNull(),
+                "notesUrl": obsidianURL(name: noteName, vault: vault),
+            ]
+        }
+        let items = (allDay + timed).map(dict)
+        let data = try! JSONSerialization.data(withJSONObject: items, options: [.sortedKeys])
+        FileHandle.standardOutput.write(data)
+        FileHandle.standardOutput.write("\n".data(using: .utf8)!)
+    } else {
+        var output = "## \(headerFmt.string(from: day))\n\n"
+        func line(_ when: String, _ e: EKEvent) -> String {
+            let title = e.title ?? "(no title)"
+            let loc = (e.location?.isEmpty == false) ? " _@ \(e.location!)_" : ""
+            return "- **\(when)** \(title)\(loc)\n"
+        }
+        if allDay.isEmpty && timed.isEmpty {
+            output += "- _No events_\n"
+        } else {
+            for e in allDay { output += line("all-day", e) }
+            for e in timed {
+                let when = "\(timeFmt.string(from: e.startDate))\u{2013}\(timeFmt.string(from: e.endDate))"
+                output += line(when, e)
+            }
+        }
+        print(output, terminator: "")
+    }
+}
+sem.wait()
+SWIFT
+
+# Only replace the source (and force a recompile) when it actually changed,
+# so repeated calls — e.g. schedule-for-week's seven — reuse the cached binary.
+if [[ ! -f "$helper_src" ]] || ! cmp -s "$helper_src.tmp" "$helper_src"; then
+  mv "$helper_src.tmp" "$helper_src"
+else
+  rm -f "$helper_src.tmp"
+fi
+
+# (Re)compile the helper when the binary is missing or out of date.
+if [[ ! -x "$helper_bin" || "$helper_src" -nt "$helper_bin" ]]; then
+  swiftc -O -o "$helper_bin.tmp" "$helper_src"
+  mv "$helper_bin.tmp" "$helper_bin"
+fi
+
+if [[ "$obsidian_url" == true ]]; then
+  "$helper_bin" "$date_arg" "$vault"
+else
+  "$helper_bin" "$date_arg"
+fi
