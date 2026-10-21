@@ -19,6 +19,9 @@ query Issue {
     title
     url
     branchName
+    project {
+      name
+    }
     description
     attachments {
       nodes {
@@ -52,6 +55,7 @@ title=$(jq -r '.data.issue.title'            <<<"$response")
 url=$(jq -r '.data.issue.url'                <<<"$response")
 branch=$(jq -r '.data.issue.branchName'      <<<"$response")
 desc=$(jq -r '.data.issue.description'       <<<"$response")
+project=$(jq -r '.data.issue.project.name // "_(none)_"' <<<"$response")
 
 # Build the PR list (only github attachments)
 pr_list=$(jq -r '
@@ -71,6 +75,7 @@ cat <<EOF
 # $identifier - $title
 * Linear link: [$identifier - $title]($url)
 * Git branch name: \`$branch\`
+* Project: $project
 * GitHub PRs:
 $pr_list
 
