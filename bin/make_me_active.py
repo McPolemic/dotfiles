@@ -21,7 +21,7 @@ X_DELTA = 13
 Y_DELTA = 27
 X_MAX = 800
 Y_MAX = 400
-FILTERED_BADGE_APPS = {'Messages', 'Reminders', 'Spark'}
+FILTERED_BADGE_APPS = {'Messages', 'Reminders', 'Spark', 'Spark Desktop', 'Discord'}
 
 def parse_timespan(time_str):
     """Parse time strings like '1h30m', '45s', '2h15m30s' into seconds."""

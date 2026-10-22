@@ -42,6 +42,7 @@ function edit_clipboard {
 
 # Make a directory and go to it
 function mkdircd() { mkdir -p "$@" && eval cd "\"\$$#\""; }
+function mkdircdgit() { mkdir -p "$@" && eval cd "\"\$$#\" && git init ."; }
 
 # Run the argument as a command and feed it to a fuzzy-finder
 function fuzzy_find() {
@@ -111,13 +112,13 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 
 
 ################## ASDF ######################
+# asdf 0.16+ is a Go binary; there is no asdf.sh to source. The binary is built
+# from the ~/.asdf submodule with: go build -o $GOPATH/bin/asdf ./cmd/asdf
 if [[ -d "$HOME/.asdf" ]]; then
-	source $HOME/.asdf/asdf.sh
-	if [ -n "$BASH_VERSION" ]; then
-		source $HOME/.asdf/asdf.sh
-	elif [ -n "$ZSH_VERSION" ]; then
-		# https://github.com/asdf-vm/asdf/issues/68#issuecomment-624231622
-		fpath=(${ASDF_DIR}/completions $fpath)
+	export ASDF_DATA_DIR="$HOME/.asdf"
+	export PATH="$ASDF_DATA_DIR/shims:$PATH"
+	if [ -n "$ZSH_VERSION" ]; then
+		fpath=(${ASDF_DATA_DIR}/completions $fpath)
 		autoload -Uz compinit && compinit
 	fi
 fi

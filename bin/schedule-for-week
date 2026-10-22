@@ -8,14 +8,16 @@ Usage: schedule-for-week [YYYY-MM-DD] [--obsidian-url]
 Print your schedule for a whole week as markdown, one section per day,
 by calling schedule-for-day for each day. The week runs Sunday through
 Saturday and contains the given date. Defaults to the current week.
+Each event is tagged with the calendar(s) it lives in.
 
 Arguments:
   YYYY-MM-DD       ISO 8601 date within the desired week. Defaults to today.
 
 Options:
   --obsidian-url   Emit JSON instead of markdown: an array of {date, events}
-                   objects, where each event includes a notesUrl that
-                   creates/opens a note for it in the Obsidian vault.
+                   objects, where each event includes a calendars array and
+                   a notesUrl that creates/opens a note for it in the
+                   Obsidian vault.
   -h, --help       Show this help and exit.
 EOF
 }

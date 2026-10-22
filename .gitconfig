@@ -75,3 +75,5 @@ prompt = false
 	smudge = git-lfs smudge -- %f
 [branch]
 	sort = -committerdate
+[credential "https://git.heroku.com"]
+	helper = !heroku git:credentials

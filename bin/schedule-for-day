@@ -8,6 +8,15 @@ Usage: schedule-for-day [YYYY-MM-DD] [--obsidian-url]
 Print your schedule for a single day as markdown. Defaults to today.
 Events are read from the macOS calendar accounts (the same canonical
 source Fantastical shows) via EventKit, de-duplicated across accounts.
+Each event is tagged with the calendar(s) it lives in, so shared
+calendars can be told apart from your own.
+
+Environment:
+  SCHEDULE_OWN_ACCOUNTS  Comma-separated account names (Calendar.app
+                         sources, e.g. "iCloud,spawn968") that are yours.
+                         An event reachable through both your account and
+                         someone else's is tagged with your calendar name
+                         only. Defaults to iCloud,spawn968,Mcpolemic.
 
 The first run compiles a small Swift helper and may prompt for
 Calendar access; subsequent runs use the cached binary.
@@ -17,14 +26,23 @@ Arguments:
 
 Options:
   --obsidian-url   Emit a JSON array of event objects instead of markdown.
-                   Each object includes a notesUrl that creates/opens a
-                   note for the event in the Obsidian vault.
+                   Each object includes a calendars array and a notesUrl
+                   that creates/opens a note for the event in the Obsidian
+                   vault.
   -h, --help       Show this help and exit.
 EOF
 }
 
 # Obsidian vault used for the notesUrl in --obsidian-url mode.
 vault="McPolemic"
+
+# Accounts (EventKit sources, not calendar names) that are yours. One event is
+# often reachable through several accounts — your calendar shared into Liz's
+# account shows up there titled "Adam Lukens" — and without this the merged
+# tag makes your own event look like someone else's. When a de-duplicated
+# event is in any of these accounts, only their calendar names are shown.
+own_accounts="iCloud,spawn968,Mcpolemic"
+export SCHEDULE_OWN_ACCOUNTS="${SCHEDULE_OWN_ACCOUNTS:-$own_accounts}"
 
 obsidian_url=false
 date_arg=""
@@ -74,6 +92,14 @@ guard CommandLine.arguments.count > 1,
 // per event, each with an Obsidian notesUrl) instead of markdown.
 let vault: String? = CommandLine.arguments.count > 2 ? CommandLine.arguments[2] : nil
 
+// Comma-separated account (EKSource) names whose calendars are yours.
+let ownAccounts: Set<String> = Set(
+    (ProcessInfo.processInfo.environment["SCHEDULE_OWN_ACCOUNTS"] ?? "")
+        .split(separator: ",")
+        .map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
+        .filter { !$0.isEmpty }
+)
+
 let cal = Calendar.current
 let start = cal.startOfDay(for: day)
 let end = cal.date(byAdding: .day, value: 1, to: start)!
@@ -113,20 +139,48 @@ store.requestFullAccessToEvents { granted, error in
     let pred = store.predicateForEvents(withStart: start, end: end, calendars: nil)
     let events = store.events(matching: pred)
 
-    // De-duplicate events that appear in multiple subscribed accounts.
-    var seen = Set<String>()
-    let unique = events.filter { e in
-        let key = "\(e.isAllDay)|\(e.startDate.timeIntervalSince1970)|\(e.endDate.timeIntervalSince1970)|\(e.title ?? "")"
-        return seen.insert(key).inserted
-    }
+    // De-duplicate events that appear in multiple subscribed accounts, keeping
+    // every distinct calendar name the event was found in. The same calendar
+    // name can appear in more than one account (e.g. a shared "Family
+    // Calendar"), so names are collapsed too. Names from your own accounts win
+    // outright: an event of yours reached through someone else's account is
+    // still yours, and their alias for it would only be misleading.
+    struct Entry {
+        let event: EKEvent
+        var own: [String] = []
+        var others: [String] = []
+        var calendars: [String] { own.isEmpty ? others : own }
 
-    let allDay = unique.filter { $0.isAllDay }
-        .sorted { ($0.title ?? "") < ($1.title ?? "") }
-    let timed = unique.filter { !$0.isAllDay }
-        .sorted { $0.startDate < $1.startDate }
+        mutating func add(_ name: String, isOwn: Bool) {
+            if isOwn {
+                if !own.contains(name) { own.append(name) }
+            } else if !others.contains(name) {
+                others.append(name)
+            }
+        }
+    }
+    var order: [String] = []
+    var byKey: [String: Entry] = [:]
+    for e in events {
+        let key = "\(e.isAllDay)|\(e.startDate.timeIntervalSince1970)|\(e.endDate.timeIntervalSince1970)|\(e.title ?? "")"
+        let name = e.calendar?.title ?? "(unknown calendar)"
+        let isOwn = ownAccounts.contains((e.calendar?.source?.title ?? "").lowercased())
+        if byKey[key] == nil {
+            byKey[key] = Entry(event: e)
+            order.append(key)
+        }
+        byKey[key]!.add(name, isOwn: isOwn)
+    }
+    let unique = order.map { byKey[$0]! }
+
+    let allDay = unique.filter { $0.event.isAllDay }
+        .sorted { ($0.event.title ?? "") < ($1.event.title ?? "") }
+    let timed = unique.filter { !$0.event.isAllDay }
+        .sorted { $0.event.startDate < $1.event.startDate }
 
     if let vault = vault {
-        func dict(_ e: EKEvent) -> [String: Any] {
+        func dict(_ entry: Entry) -> [String: Any] {
+            let e = entry.event
             let title = e.title ?? "(no title)"
             let noteName = "\(dateFmt.string(from: e.startDate)) \(title)"
             return [
@@ -135,6 +189,7 @@ store.requestFullAccessToEvents { granted, error in
                 "start": iso.string(from: e.startDate),
                 "end": iso.string(from: e.endDate),
                 "location": (e.location?.isEmpty == false) ? e.location! : NSNull(),
+                "calendars": entry.calendars,
                 "notesUrl": obsidianURL(name: noteName, vault: vault),
             ]
         }
@@ -144,18 +199,21 @@ store.requestFullAccessToEvents { granted, error in
         FileHandle.standardOutput.write("\n".data(using: .utf8)!)
     } else {
         var output = "## \(headerFmt.string(from: day))\n\n"
-        func line(_ when: String, _ e: EKEvent) -> String {
+        func line(_ when: String, _ entry: Entry) -> String {
+            let e = entry.event
             let title = e.title ?? "(no title)"
             let loc = (e.location?.isEmpty == false) ? " _@ \(e.location!)_" : ""
-            return "- **\(when)** \(title)\(loc)\n"
+            let cals = " [\(entry.calendars.joined(separator: ", "))]"
+            return "- **\(when)** \(title)\(loc)\(cals)\n"
         }
         if allDay.isEmpty && timed.isEmpty {
             output += "- _No events_\n"
         } else {
-            for e in allDay { output += line("all-day", e) }
-            for e in timed {
+            for entry in allDay { output += line("all-day", entry) }
+            for entry in timed {
+                let e = entry.event
                 let when = "\(timeFmt.string(from: e.startDate))\u{2013}\(timeFmt.string(from: e.endDate))"
-                output += line(when, e)
+                output += line(when, entry)
             }
         }
         print(output, terminator: "")
